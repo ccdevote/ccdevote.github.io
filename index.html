@@ -1,41 +1,14 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Welcome to my blog</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="resources/css/main.css" type="text/css" media="screen" />
-    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
-    <!-- add cdn jquery-->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- add cdn bootstrap -->
-    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.js"></script>
-    <script type="text/javascript" src="resources/js/main.js"></script>
-</head>
-<body>
-<div class="bs-header">
-  <div class="container">
-      <h1>の前路@……</h1>
-      <p>希望噈茬錑偂~岢媞吥知為何莪噈媞抓吥住彵，唵吥知該咋か，無奈ㄋ……茬努仂拼①丅吧</p>
-  </div>
-</div>
-<div class="container">
-    <div class="row">
-    <div class="col-md-2">
-      left
-      <!--Sidebar content-->
-    </div>
-    <div class="col-md-6">
-      <ul>
-        {% for post in site.posts %}
-        <li>
-          <a href="{{ post.url }}">{{ post.title }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="col-md-4">
-      right
-    </div>
-  </div>
-</div>
-</body>
-</html>
+---
+
+title: my blog
+
+---
+
+
+<h2> {{page.title}}</h2>
+<p> recently article</p>
+<ul>
+  <% for post in site.posts %>
+   <li>{{post.date|date_to_string}}<a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+   <% endfor %}
+</ul>
