@@ -1,0 +1,251 @@
+---
+layout: post
+title: Sample Git Guid
+---
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Git 配置</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>配置用户信息
+<div class="org-src-container">
+
+<pre class="src src-python">git config --<span style="color: #859900;">global</span> user.name <span style="color: #2aa198;">"Zhiyong Ma"</span>
+git config --<span style="color: #859900;">global</span> user.email <span style="color: #2aa198;">"ccdevote@gmail.com"</span>
+</pre>
+</div>
+</li>
+<li>配置编辑器
+在commit未指定-m选项时编辑comment等信息
+<div class="org-src-container">
+
+<pre class="src src-python">git config --golbal core.editor <span style="color: #2aa198;">"emacs -nw"</span>
+</pre>
+</div>
+</li>
+<li>配置命令别名
+<div class="org-src-container">
+
+<pre class="src src-python">git config --<span style="color: #859900;">global</span> alias.ci <span style="color: #2aa198;">"commit -s"</span>
+</pre>
+</div>
+</li>
+<li>修改配置文件
+<div class="org-src-container">
+
+<pre class="src src-python">git config -e --[<span style="color: #859900;">global</span>|system]
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 常用命令</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 添加文件到缓冲区</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+文件添加后会从未跟踪状态变为跟踪状态，当文件的状态修改后git才能作出相应的判断。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python">git add <span style="color: #6c71c4;">file</span>..
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 提交当前版本</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+把所有通过add命令加入暂存区被跟踪的文件当作一个版本提交
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python">git commit -m <span style="color: #2aa198;">"description"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 推送到远程分支</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+
+<pre class="src src-python">git push origin mzy
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 显示精简的状态输出</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+
+<pre class="src src-python">git status -s
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> 查看cached和版本库中的文件差异</h3>
+<div class="outline-text-3" id="text-2-5">
+<div class="org-src-container">
+
+<pre class="src src-python">git diff --cached
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> 暂存区的目录树会被master分支目录树替换</h3>
+<div class="outline-text-3" id="text-2-6">
+<div class="org-src-container">
+
+<pre class="src src-python">git reset HEAD
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> 删除暂存区的文件工作区不变</h3>
+<div class="outline-text-3" id="text-2-7">
+<div class="org-src-container">
+
+<pre class="src src-python">git rm --cached &lt;<span style="color: #6c71c4;">file</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> 限制引用对应的提交id结合 git cat-file -p 显示提交信息</h3>
+<div class="outline-text-3" id="text-2-8">
+<div class="org-src-container">
+
+<pre class="src src-python">git rev-parse master
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> 其他需要注意的地方</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+git 中有工作区 暂存区 和 HEAD区域
+不要使用git commit -a命令 这样提交会使暂存区失去意义，丧失版本控制能力。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Git 小专题</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 使用Git的方式</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Git的使用比较灵活，结合GitHub可以为版本控制搞出很多花样。我目前知道的用法有两种：
+</p>
+<pre class="example">
+   老师创建一个git项目，然后发布到GitHub上。我们clone下来，老师把我们的用户名加入到组里，
+给我们写的权限。我们每个人都在本地创建自己的分支，修改文件以后，提交。然后push到老师的项目
+中。老师维护origin/master分支，当我们提交代码后，老师会进行审查，然后往master分支合并。
+这应该是一个比较传统的方式吧。
+</pre>
+<pre class="example">
+   另一种方式是首先创建一个项目放到GitHub上，然后参与项目的人去GitHub上fork一个本地的副本，
+接下来每个人都维护自己的副本，参与人员之间也可以互相fork，这样更加方便协作。管理者也同时fork
+其他人的分支，当有需要的时候就王主项目上合并。当主项目满足要求就打包分发。然后开始下一阶段开发。
+下一阶段再从头执行这个流程。
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Emacs 下面使用git</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+   Emacs有强大的VC可以提供对git的支持，VC是一个抽象的版本控制系统，可以提供对多版本控制系统的支持如SVN、CVS、Git等。使用Git时还应结合EGit或着Magit等插件一起使用。
+种下面简单介绍一下在Emacs下面使用Git的操作方式：
+</p>
+</div>
+<div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> 基本操作</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li>初始化Git
+<div class="org-src-container">
+
+<pre class="src src-python">M-x -&gt; magit-init          <span style="color: #839496; font-style: italic;"># &#36827;&#20837;&#38656;&#35201;&#36827;&#34892;&#29256;&#26412;&#25511;&#21046;&#30340;&#30446;&#24405;&#25191;&#34892;&#27492;&#21629;&#20196;&#65292;&#30456;&#24403;&#20110;git init</span>
+</pre>
+</div>
+</li>
+<li>添加文件到缓冲区
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v i                    <span style="color: #839496; font-style: italic;"># &#30456;&#24403;&#20110;git add &lt;file&gt;</span>
+</pre>
+</div>
+</li>
+<li>提交文件
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v v                    <span style="color: #839496; font-style: italic;"># &#30456;&#24403;&#20110;git commit</span>
+//&#28155;&#21152;&#25552;&#20132;Message
+C-c C-c                    <span style="color: #839496; font-style: italic;"># &#23436;&#25104;&#25552;&#20132;</span>
+</pre>
+</div>
+</li>
+<li>提交到远程服务器
+<div class="org-src-container">
+
+<pre class="src src-python">M-x magit-push             <span style="color: #839496; font-style: italic;"># &#30456;&#24403;&#20110;git push</span>
+//&#39318;&#27425;&#20351;&#29992;&#38656;&#35201;&#37197;&#32622;remote
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> 分支操作</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<ul class="org-ul">
+<li>拉取远端分支
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v +                    <span style="color: #839496; font-style: italic;"># &#30456;&#24403;&#20110;git pull</span>
+</pre>
+</div>
+</li>
+<li>合并分支
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v m                    <span style="color: #839496; font-style: italic;"># &#30456;&#24403;&#20110;git merge</span>
+</pre>
+</div>
+</li>
+<li>创建新分支
+<div class="org-src-container">
+
+<pre class="src src-python"></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>

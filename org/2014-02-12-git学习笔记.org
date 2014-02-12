@@ -1,0 +1,116 @@
+#+TITLE:       Sample Git Guid
+#+AUTHOR:      Anterior
+#+EMAIL:       ccdevote@gmail.com
+#+DESCRIPTION: A sample document on my learning with org-mode and git
+#+KEYWORDS:    git,org-mode
+#+LANGUAGE:    zh_CN
+
+* Git 配置
+  + 配置用户信息
+   #+BEGIN_SRC python
+   git config --global user.name "Zhiyong Ma"
+   git config --global user.email "ccdevote@gmail.com"
+   #+END_SRC
+  + 配置编辑器
+   在commit未指定-m选项时编辑comment等信息
+   #+BEGIN_SRC python
+   git config --golbal core.editor "emacs -nw"
+   #+END_SRC
+  + 配置命令别名
+   #+BEGIN_SRC python
+   git config --global alias.ci "commit -s"
+   #+END_SRC
+  + 修改配置文件
+   #+BEGIN_SRC python
+   git config -e --[global|system]
+
+#+END_SRC
+* 常用命令
+** 添加文件到缓冲区
+   文件添加后会从未跟踪状态变为跟踪状态，当文件的状态修改后git才能作出相应的判断。
+   #+BEGIN_SRC python
+   git add file..
+   #+END_SRC
+** 提交当前版本
+   把所有通过add命令加入暂存区被跟踪的文件当作一个版本提交
+   #+BEGIN_SRC python
+   git commit -m "description"
+   #+END_SRC
+** 推送到远程分支
+   #+BEGIN_SRC python
+   git push origin mzy
+   #+END_SRC
+** 显示精简的状态输出
+   #+BEGIN_SRC python
+   git status -s
+   #+END_SRC
+** 查看cached和版本库中的文件差异
+   #+BEGIN_SRC python
+   git diff --cached
+   #+END_SRC
+** 暂存区的目录树会被master分支目录树替换
+   #+BEGIN_SRC python
+   git reset HEAD
+   #+END_SRC
+** 删除暂存区的文件工作区不变
+   #+BEGIN_SRC python
+   git rm --cached <file>
+   #+END_SRC
+** 限制引用对应的提交id结合 git cat-file -p 显示提交信息
+   #+BEGIN_SRC python
+   git rev-parse master
+   #+END_SRC
+** 其他需要注意的地方
+git 中有工作区 暂存区 和 HEAD区域
+不要使用git commit -a命令 这样提交会使暂存区失去意义，丧失版本控制能力。
+* Git 小专题
+** 使用Git的方式
+   Git的使用比较灵活，结合GitHub可以为版本控制搞出很多花样。我目前知道的用法有两种：
+   #+BEGIN_EXAMPLE
+   老师创建一个git项目，然后发布到GitHub上。我们clone下来，老师把我们的用户名加入到组里，
+给我们写的权限。我们每个人都在本地创建自己的分支，修改文件以后，提交。然后push到老师的项目
+中。老师维护origin/master分支，当我们提交代码后，老师会进行审查，然后往master分支合并。
+这应该是一个比较传统的方式吧。
+   #+END_EXAMPLE
+   #+BEGIN_EXAMPLE
+   另一种方式是首先创建一个项目放到GitHub上，然后参与项目的人去GitHub上fork一个本地的副本，
+接下来每个人都维护自己的副本，参与人员之间也可以互相fork，这样更加方便协作。管理者也同时fork
+其他人的分支，当有需要的时候就王主项目上合并。当主项目满足要求就打包分发。然后开始下一阶段开发。
+下一阶段再从头执行这个流程。
+   #+END_EXAMPLE
+** Emacs 下面使用git
+   Emacs有强大的VC可以提供对git的支持，VC是一个抽象的版本控制系统，可以提供对多版本控制系统的支持如SVN、CVS、Git等。使用Git时还应结合EGit或着Magit等插件一起使用。
+种下面简单介绍一下在Emacs下面使用Git的操作方式：
+*** 基本操作
+   + 初始化Git
+     #+BEGIN_SRC python
+     M-x -> magit-init          # 进入需要进行版本控制的目录执行此命令，相当于git init
+     #+END_SRC
+   + 添加文件到缓冲区
+     #+BEGIN_SRC python
+     C-x v i                    # 相当于git add <file>
+     #+END_SRC
+   + 提交文件
+     #+BEGIN_SRC python
+     C-x v v                    # 相当于git commit
+     //添加提交Message
+     C-c C-c                    # 完成提交
+     #+END_SRC
+   + 提交到远程服务器
+     #+BEGIN_SRC python
+     M-x magit-push             # 相当于git push
+     //首次使用需要配置remote
+     #+END_SRC
+*** 分支操作
+   + 拉取远端分支
+     #+BEGIN_SRC python
+     C-x v +                    # 相当于git pull
+     #+END_SRC
+   + 合并分支
+     #+BEGIN_SRC python
+     C-x v m                    # 相当于git merge
+     #+END_SRC
+   + 创建新分支
+     #+BEGIN_SRC python
+
+     #+END_SRC

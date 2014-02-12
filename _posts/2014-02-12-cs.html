@@ -1,0 +1,161 @@
+---
+layout: post
+title: 深入理解计算机系统
+---
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 链接</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 动态共享库</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+1.基本概念
+</p>
+<ul class="org-ul">
+<li><b>共享库</b> ：是一个目标模块在运行时可以加载到任意的存储器地址，并和一个在存储器中的程序链接起来。
+</li>
+<li><b>动态链接</b> ：共享库在运行时链接的过程叫做 <i>动态链接(dynamic linking)</i> ，是由 <i>动态链接器(dynamic linker)</i> 的程序来执行的。
+</li>
+<li>共享库也成为 <b>共享目标(shared object)</b> 在UNIX系统中通常用.so后缀表示，Windiows成为DLL（动态链接库）。
+</li>
+<li>动态链接一种是加载时链接，一种是运行时链接。
+</li>
+</ul>
+<p>
+2.执行流程
+</p>
+<ul class="org-ul">
+<li>在给定的任何文件系统中，对于一个库只有一个.so文件。所有引用该库的可执行目标文件共享这个.so文件中的代码和数据，而不止是像静态库的内容那样被拷贝和嵌入到可执行文件中。
+</li>
+<li>在存储器中，一个共享库的.text节的一个副本可以被不同的正在运行的进程共享。
+</li>
+</ul>
+<p>
+3.编译指令
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c">gcc -shared -fPIC -o libxxx.so xxx.c yyy.c # &#36890;&#36807;&#36825;&#31181;&#26041;&#24335;&#21019;&#24314;&#21160;&#24577;&#38142;&#25509;&#24211;
+gcc -o p2 main2.c ./libxxx.so              # &#32534;&#35793;&#26102;&#36890;&#36807;&#36825;&#31181;&#26041;&#24335;&#20351;&#29992;&#21160;&#24577;&#38142;&#25509;&#24211;
+</pre>
+</div>
+<ul class="org-ul">
+<li>-fPIC 选项指示 <b>编译器</b> 生成与位置无关的代码。
+</li>
+<li>-shared 选项指示 <b>链接器</b> 创建一个共享的目标文件。
+</li>
+<li>虽然编译和链接的时候会用到动态链接库，但是却不是把动态链接库中的代码段和数据段拷贝到目标文件中。
+</li>
+<li>加载时链接：
+<ul class="org-ul">
+<li>当创建可执行文件时，静态执行一些链接，然后在程序加载时动态完成链接过程。
+</li>
+<li>链接器只是拷贝了一些重定位和符号表信息，它们使得运行时可以解析对libxxx.so中代码和数据的引用。
+</li>
+<li>加载时加载器会注意到p2中包含一个包含动态链接器路径名的.interp节，加载器加载和运行这个动态链接器。
+</li>
+<li>动态链接器会执行以下内容：
+<ul class="org-ul">
+<li>重定位libc.so的文本和数据到某个存储器段
+</li>
+<li>重定位libxxx.so的文本和数据到某个存储器段
+</li>
+<li>重定位p2中所有对libc.so和libvector.so定义的符号的引用
+</li>
+<li>最后动态链接器将控制传递给应用程序。从这个时刻开始，共享库的位置就固定了，并且在程序的执行过程中都不会改变
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>运行时链接：
+<ul class="org-ul">
+<li>当应用程序需要时会动态地加载和链接适当的函数然后直接调用他，而不是使用fork和execve在子进程的上下文中运行函数。
+</li>
+<li>函数会一直缓存在服务器的地址空间中，所以只需要一次加载链接的开销。
+</li>
+<li>使用方式：
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d33682;">#include</span> <span style="color: #2aa198;">&lt;dlfcn.h&gt;</span>
+
+<span style="color: #93a1a1; font-style: italic;">/*</span>
+<span style="color: #839496; font-style: italic;"> * &#21152;&#36733;&#21644;&#38142;&#25509;&#20849;&#20139;&#24211; filename</span>
+<span style="color: #839496; font-style: italic;"> * param 0 :filename &#20849;&#20139;&#24211;&#36335;&#24452;&#21644;&#21517;&#31216;</span>
+<span style="color: #839496; font-style: italic;"> * param 1 :[RTLD_NOW(&#31435;&#21363;&#35299;&#26512;&#23545;&#22806;&#37096;&#31526;&#21495;&#30340;&#24341;&#29992;)|RTLD_LAZY(&#25512;&#36831;&#31526;&#21495;&#35299;&#26512;&#30452;&#21040;&#36816;&#34892;&#24211;&#20013;&#30340;&#20195;&#30721;)] &#22914;&#26524;&#32534;&#35793;&#26102;&#24102;-rdynamic&#36873;&#39033;&#65292;&#21017;&#20840;&#23616;&#31526;&#21495;&#21487;&#29992;</span>
+<span style="color: #839496; font-style: italic;"> * return  :&#33509;&#25104;&#21151;&#21017;&#36820;&#22238;&#25351;&#21521;&#21477;&#26564;&#30340;&#25351;&#38024;&#65292;&#20986;&#38169;&#21017;&#20026;NULL</span>
+<span style="color: #839496; font-style: italic;"> </span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #b58900;">void</span> *<span style="color: #268bd2;">dlopen</span>(<span style="color: #859900;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #b58900;">filename</span>,<span style="color: #b58900;">int</span> <span style="color: #b58900;">flag</span>);
+
+<span style="color: #93a1a1; font-style: italic;">/*</span>
+<span style="color: #839496; font-style: italic;"> * &#25171;&#24320;&#19968;&#20010;&#21477;&#26564;&#30340;&#31526;&#21495;&#65288;&#33719;&#24471;&#21160;&#24577;&#25191;&#34892;&#30340;&#31526;&#21495;&#30340;&#22320;&#22336;&#65289;</span>
+<span style="color: #839496; font-style: italic;"> * param 0 :&#30001;dlopen&#36820;&#22238;&#30340;&#21477;&#26564;</span>
+<span style="color: #839496; font-style: italic;"> * param 1 :&#31526;&#21495;&#21517;&#65288;&#20989;&#25968;&#25110;&#20840;&#23616;&#31526;&#21495;&#31561;)</span>
+<span style="color: #839496; font-style: italic;"> * return  :&#33509;&#25104;&#21151;&#21017;&#36820;&#22238;&#31526;&#21495;&#30340;&#22320;&#22336;&#25351;&#38024;&#65292;&#20986;&#38169;&#21017;&#20026;NULL</span>
+<span style="color: #839496; font-style: italic;"> </span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #b58900;">void</span> *<span style="color: #268bd2;">dlsym</span>(<span style="color: #b58900;">void</span> *<span style="color: #b58900;">handle</span>,<span style="color: #b58900;">char</span> *<span style="color: #b58900;">symbol</span>);
+
+<span style="color: #93a1a1; font-style: italic;">/*</span>
+<span style="color: #839496; font-style: italic;"> * &#22914;&#26524;&#27809;&#26377;&#20854;&#20182;&#20849;&#20139;&#24211;&#20351;&#29992;&#36825;&#20010;&#20849;&#20139;&#24211;&#65292;&#37027;&#20040;&#23601;&#21368;&#36733;&#27492;&#20849;&#20139;&#24211;</span>
+<span style="color: #839496; font-style: italic;"> * param 0 :&#30001;dlopen&#36820;&#22238;&#30340;&#21477;&#26564;</span>
+<span style="color: #839496; font-style: italic;"> * return  :&#25104;&#21151;&#36820;&#22238;0&#65292;&#22833;&#36133;&#36820;&#22238;1</span>
+<span style="color: #839496; font-style: italic;"> </span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">dlclose</span>(<span style="color: #b58900;">void</span> *<span style="color: #b58900;">handle</span>);
+
+<span style="color: #93a1a1; font-style: italic;">/*</span>
+<span style="color: #839496; font-style: italic;"> * &#22914;&#26524;dlopen,dlsym&#25110;dlclose&#35843;&#29992;&#22833;&#36133;&#21017;&#36820;&#22238;&#30456;&#24212;&#30340;&#38169;&#35823;&#28040;&#24687;</span>
+<span style="color: #839496; font-style: italic;"> * return  :dlopen,dlsym&#25110;dlclose&#35843;&#29992;&#22833;&#36133;&#21017;&#36820;&#22238;&#30456;&#24212;&#30340;&#38169;&#35823;&#28040;&#24687;,&#21542;&#21017;&#36820;&#22238;NULL</span>
+<span style="color: #839496; font-style: italic;"> </span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #859900;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">dlerror</span>(<span style="color: #b58900;">void</span>);
+</pre>
+</div>
+<ul class="org-ul">
+<li>例子：
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #93a1a1; font-style: italic;">/* </span><span style="color: #839496; font-style: italic;">-----------------xxx.c--------------------------------</span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #d33682;">#include</span><span style="color: #2aa198;">&lt;stdio.h&gt;</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">sayHello</span>(<span style="color: #859900;">const</span> <span style="color: #b58900;">char</span> * <span style="color: #b58900;">str</span>)
+{
+    printf (<span style="color: #2aa198;">"%s\n"</span>,str);
+}
+<span style="color: #93a1a1; font-style: italic;">// </span><span style="color: #839496; font-style: italic;">gcc -shared -fPIC -o libxxx.so xxx.c -rdynamic</span>
+
+<span style="color: #93a1a1; font-style: italic;">/* </span><span style="color: #839496; font-style: italic;">-----------------main.c--------------------------------</span><span style="color: #93a1a1; font-style: italic;">*/</span>
+<span style="color: #d33682;">#include</span> <span style="color: #2aa198;">&lt;stdio.h&gt;</span>
+<span style="color: #d33682;">#include</span> <span style="color: #2aa198;">&lt;stdlib.h&gt;</span>
+<span style="color: #d33682;">#include</span> <span style="color: #2aa198;">&lt;dlfcn.h&gt;</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #b58900;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #b58900;">argv</span>[]){
+    <span style="color: #b58900;">void</span> *<span style="color: #b58900;">handle</span>;
+    <span style="color: #b58900;">char</span> * <span style="color: #b58900;">error</span>;
+    <span style="color: #b58900;">void</span> (*<span style="color: #b58900;">sayHello</span>)(<span style="color: #859900;">const</span> <span style="color: #b58900;">char</span> *);
+    <span style="color: #859900;">if</span>((handle = dlopen(<span style="color: #2aa198;">"./libxxx.so"</span>,RTLD_LAZY)) == <span style="color: #6c71c4;">NULL</span>){
+        fprintf(stderr,<span style="color: #2aa198;">"%s\n"</span>,dlerror());
+        <span style="color: #859900;">return</span> -1;
+    }
+    <span style="color: #859900;">if</span>((sayHello = dlsym(handle,<span style="color: #2aa198;">"sayHello"</span>))==<span style="color: #6c71c4;">NULL</span>){
+        <span style="color: #859900;">if</span>((error = dlerror())!=<span style="color: #6c71c4;">NULL</span>){
+            fprintf(stderr,<span style="color: #2aa198;">"%s\n"</span>,error);
+            <span style="color: #859900;">return</span> -1;
+        }
+    }
+    sayHello(<span style="color: #2aa198;">"nice to meet you!"</span>);
+    <span style="color: #859900;">if</span>(dlclose(handle)&lt;0){
+        fprintf(stderr,<span style="color: #2aa198;">"%s\n"</span>,dlerror());
+        <span style="color: #859900;">return</span> -1;
+    }
+    <span style="color: #859900;">return</span> 0;
+}
+<span style="color: #93a1a1; font-style: italic;">// </span><span style="color: #839496; font-style: italic;">gcc -o  main main.c -ldl</span>
+<span style="color: #93a1a1; font-style: italic;">//</span><span style="color: #839496; font-style: italic;">./main</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
