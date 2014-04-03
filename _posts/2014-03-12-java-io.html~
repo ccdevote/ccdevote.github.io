@@ -1,0 +1,50 @@
+<p>
+Java中的I/O分为传统IO、NIO、NIO2三类,标准IO是在java.io包中提供的最
+原始的同步IO访问方式，NIO即：no-blocking io是JDK1.4中提供的新的IO
+操作的API，提供了非阻塞IO操作。NIO2是JDK1.7中新增的IO操作的API，主
+要对原来的NIO进行了增强。
+</p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> OIO</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+传统IO又叫OIO，主要包含三个部分：
+</p>
+<ol class="org-ol">
+<li>字节流 InputStream/OutputStream的子类
+</li>
+<li>字符流 Reader/Writer的子类
+</li>
+<li>随机流 RandomAccessFile
+</li>
+</ol>
+<p>
+<b>InputStream</b> 的直接体系结构如下：
+</p>
+
+<div class="figure">
+<p><img src="/../images/inputstream.png" alt="inputstream.png" />
+</p>
+</div>
+
+<p>
+其中比较常用的应该就是FileInputStream和
+BufferedInputStream了,FileInputStream以字节流的方式读取文件。
+BufferedInputStream是一个包装类，用来包装InputStream，提供缓冲输入以及
+支持mark和reset功能。在创建BufferedInputStream时会创建一个内部缓冲区数
+组。在读取或跳过流中的字节时，可根据需要从包含的输入流再次填充该内部缓
+冲区，一次填充多个字节。mark 操作记录输入流中的某个点，reset 操作使得
+在从包含的输入流中获取新字节之前，再次读取自最后一次 mark 操作后读取的
+所有字节。
+</p>
+
+<p>
+<b>OutputStream</b> 的体系结构如下：
+</p>
+
+<div class="figure">
+<p><img src="/../images/outputstream.png" alt="outputstream.png" />
+</p>
+</div>
+</div>
+</div>

@@ -2,6 +2,7 @@
 layout: default
 ---
 <h1>{{page.title}}</h1>
+总字数：{{page.content | number_of_words}}|类别:{{page.category}}
 <div id="post">
 {{ content }}
 </div>

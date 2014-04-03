@@ -1,0 +1,63 @@
+#+TITLE:Org-mode学习笔记一
+#+AUTHOR:Afanty
+#+EMAIL:ccdevote@gmail.com
+#+YAML/CATEGORY:emacs
+用了category的URL方式，试试效果 none
+org-mode是一个很强大的Emacs套件，可以干很多很多事情……
+* 基本配置
+Emacs24以后默认自带了org-mode，默认也可以关联.org扩展名的文件，
+可以在配置文件（.emacs)中简单配置一下,如下：
+#+BEGIN_SRC lisp
+;; The following lines are always needed. Choose your own keys.
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)) ; not needed since Emacs 22.2
+(add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+#+END_SRC
+这样就可以确保.org扩展名的文件能够关联到org-mode上了，并且还增
+加了几个快捷键分别指向org-store-link,org-agenda,org-iswitchb。
+后面会一一介绍它们的功能。
+
+* 常用操作
+添加一个图片到文档里
+#+CAPTION: This is the caption for the next figure link (or table)
+#+NAME:rss
+#+ATTR_HTML: :class img :alt cat/spider image :title Action! :align right
+[[file:images/rss.png]]
+然后查看一下效果。
+
+#+CAPTION:caption
+#+NAME:an image
+#+ALTER_HTML: :class image :alt alt message :title title :align center
+file:images/rss.png
+
+
+#+CAPTION:caption
+#+NAME:intername
+#+ATTR_HTML: :class image :alt alt message :title titlemessage :align center
+file:images/rss.png
+
+再测试一下plantuml-mode
+#+BEGIN_SRC plantuml :file ../images/umltwo.png  :cmdline -charset UTF-8
+title Example Sequence Diagram
+activate Client
+Client -> Server: Session Initiation
+note right: Client requests new session
+activate Server
+Client <-- Server: Authorization Request
+note left: Server requires authentication
+Client -> Server: Authorization Response
+note right: Client provides authentication details
+Server --> Client: Session Token
+deactivate Server
+deactivate Client
+#+END_SRC
+现在如果导出会把图片生成到当前文件所在目录中，如果我想生成到images文件
+夹应该怎么办？那就在图片前加上一个绝对路径就可以了
+加上相对路径可不可以呢？
+#+BEGIN_SRC plantuml :file ../images/umltest.png :cmdline -charset UTF-8
+title 
+
+#+END_SRC
+

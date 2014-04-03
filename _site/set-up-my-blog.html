@@ -1,7 +1,82 @@
----
-layout: post
-title: 博客搭建小记
----
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客搭建小记</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/timeline.css" />
+    <!--<link rel="stylesheet" href="css/bootstrap.css"/>-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to my blog!</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="logo" height="400px">
+                Logo
+            </div>
+        </div>
+        <div  class="col-md-5">
+            <div class="navbar navbar-info nav-holder" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/index.html">Afanty</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="basic-menu" ><a href="/index.html">首页</a></li>
+                    <li class="basic-menu" ><a href="about.html">关于我</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+           <div class="panel-info">
+                <div class="panel-heading">统计信息</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>文章数：</li>
+                        <li>访客数：</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-info">
+                <div class="panel-heading">分类信息</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>文章数：</li>
+                        <li>访客数：</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+	    <h1>博客搭建小记</h1>
+总字数：471|类别:
+<div id="post">
 <p>
 一直想搭建一个自己的博客，这两天终于下定决心搞起了，博客搭建的不算费力，中间投机
 取巧了很多东西，下面就来记录一下整个搭建过程，希望对您有所帮助。
@@ -54,9 +129,9 @@ github.io、Emacs、org-mode。具体的操作流程是用Emacs的org-mode写博
 <div class="org-src-container">
 
 <pre class="src src-python">cd blog
-echo <span style="color: #2aa198;">"hello world"</span> &gt;&gt; index.html
+echo <span style="color: #66cccc;">"hello world"</span> &gt;&gt; index.html
 git add index.html
-git commit -m <span style="color: #2aa198;">"test my blog"</span>
+git commit -m <span style="color: #66cccc;">"test my blog"</span>
 git push
 </pre>
 </div>
@@ -88,7 +163,7 @@ fork下来修改一下就可以了（这才是真正的懒人博客）毕竟写�
 <li>启动Jekyll测试
 <div class="org-src-container">
 
-<pre class="src src-python">jekyll serve -w <span style="color: #839496; font-style: italic;">#&#24320;&#21551;Jekyll&#26381;&#21153;&#22120;</span>
+<pre class="src src-python">jekyll serve -w <span style="color: #999999; font-style: italic;">#</span><span style="color: #999999; font-style: italic;">&#24320;&#21551;Jekyll&#26381;&#21153;&#22120;</span>
 </pre>
 </div>
 <p>
@@ -186,12 +261,12 @@ Emacs的org-mode是一个写博客的神器，他的好处不是本文的重点�
 </p>
 <div class="org-src-container">
 
-<pre class="src src-lisp">(add-to-list 'load-path <span style="color: #2aa198;">"path to org-jekyll-mode"</span>)
-(<span style="color: #859900;">require</span> '<span style="color: #6c71c4;">org-jekyll-mode</span>)
-<span style="color: #93a1a1; font-style: italic;">;;</span><span style="color: #839496; font-style: italic;">&#35774;&#23450;jekyll&#36335;&#24452;--&#20320;&#30340;&#21338;&#23458;&#36335;&#24452;</span>
-(setq org-jekyll/jekyll-project-root <span style="color: #2aa198;">"path to you jekyll home"</span>)
-<span style="color: #93a1a1; font-style: italic;">;;</span><span style="color: #839496; font-style: italic;">&#35774;&#23450;org&#25991;&#20214;&#23384;&#25918;&#30340;&#22320;&#22336;--&#21338;&#23458;&#28304;&#25991;&#20214;&#23384;&#25918;&#22320;&#22336;</span>
-(setq org-jekyll/org-mode-project-root <span style="color: #2aa198;">"/home/soft/document/blog/org"</span>)
+<pre class="src src-lisp">(add-to-list 'load-path <span style="color: #66cccc;">"path to org-jekyll-mode"</span>)
+(<span style="color: #99cc99;">require</span> '<span style="color: #6699cc;">org-jekyll-mode</span>)
+<span style="color: #999999; font-style: italic;">;;</span><span style="color: #999999; font-style: italic;">&#35774;&#23450;jekyll&#36335;&#24452;--&#20320;&#30340;&#21338;&#23458;&#36335;&#24452;</span>
+(setq org-jekyll/jekyll-project-root <span style="color: #66cccc;">"path to you jekyll home"</span>)
+<span style="color: #999999; font-style: italic;">;;</span><span style="color: #999999; font-style: italic;">&#35774;&#23450;org&#25991;&#20214;&#23384;&#25918;&#30340;&#22320;&#22336;--&#21338;&#23458;&#28304;&#25991;&#20214;&#23384;&#25918;&#22320;&#22336;</span>
+(setq org-jekyll/org-mode-project-root <span style="color: #66cccc;">"/home/soft/document/blog/org"</span>)
 </pre>
 </div>
 <p>
@@ -200,8 +275,8 @@ Emacs的org-mode是一个写博客的神器，他的好处不是本文的重点�
 <div class="org-src-container">
 
 <pre class="src src-python">M x org-jekyll-mode
-C c C d  <span style="color: #839496; font-style: italic;"># &#26681;&#25454;&#25552;&#31034;&#36755;&#20837;&#25991;&#20214;&#21517;&#23601;&#21487;&#20197;&#21019;&#24314;&#20986;&#20197;&#24403;&#21069;&#26085;&#26399;&#20026;&#21069;&#32512;&#30340;&#25991;&#20214;</span>
-C c p    <span style="color: #839496; font-style: italic;"># &#21457;&#24067;&#24403;&#21069;&#25991;&#20214;&#21040;_ posts&#30446;&#24405;&#20013;</span>
+C c C d  <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#26681;&#25454;&#25552;&#31034;&#36755;&#20837;&#25991;&#20214;&#21517;&#23601;&#21487;&#20197;&#21019;&#24314;&#20986;&#20197;&#24403;&#21069;&#26085;&#26399;&#20026;&#21069;&#32512;&#30340;&#25991;&#20214;</span>
+C c p    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#21457;&#24067;&#24403;&#21069;&#25991;&#20214;&#21040;_ posts&#30446;&#24405;&#20013;</span>
 </pre>
 </div>
 <p>
@@ -227,7 +302,7 @@ your-username.github.io访问你的博客了。
 <div class="org-src-container">
 
 <pre class="src src-python">git add .
-git commmit -m <span style="color: #2aa198;">" my first blog"</span>
+git commmit -m <span style="color: #66cccc;">" my first blog"</span>
 git push
 </pre>
 </div>
@@ -247,20 +322,55 @@ git push
 </p>
 </div>
 </div>
-<div id="outline-container-sec-2-6" class="outline-3">
-<h3 id="sec-2-6"><span class="section-number-3">2.6</span> 关于Emacs</h3>
-<div class="outline-text-3" id="text-2-6">
-<p>
-如果您感觉配置Emacs有难度，那么可以fork我的emacs配置文件:
-</p>
-<div class="org-src-container">
+</div>
 
-<pre class="src src-python">git clone https://github.com/ccdevote/emacs.d.git
-</pre>
 </div>
-<p>
-当然了我也是fork别人的，你可以切换到mzy分支，这里有我最近的改动。
-</p>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li><span>23 Mar 2014</span> &raquo; <a href="/elisp-basic-1.html">Elisp学习笔记一</a></li>
+    
+      <li><span>21 Mar 2014</span> &raquo; <a href="/emacs/org-mode-1.html">Org-mode学习笔记一</a></li>
+    
+      <li><span>19 Mar 2014</span> &raquo; <a href="/simple-git-guid.html">Git 学习笔记</a></li>
+    
+  </ul>
 </div>
+
+            
+        </div>
+    </div>
 </div>
+
+<div class="container">
+  <hr>
+  <center>
+  Zhiyong Ma<br />
+  ccdevote@gmail.com<br/>
+  <a href="http://github.com/ccdevote/">github.com/ccdevote</a>
+  </center>
 </div>
+<div class="fix-layout">
+    <div id="_returnTop_layout_inner" class="gb-operation-area">
+        <a id="goto_top_btn" class="gb-operation-button return-top" href="javascript:;">
+            <i class="gb-operation-icon" title="返回顶部"></i>
+            <span class="gb-operation-text">顶部</span>
+        </a>
+        <!-- <a id="" class="gb-operation-button report" href="javascript:;" style="display: block;"> -->
+        <!--     <i class="gb-operation-icon" title="举报"></i> -->
+        <!--     <span class="gb-operation-text">举报</span> -->
+        <!-- </a> -->
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--<script src="js/jquery.js" type="text/javascript"></script>-->
+<script src="js/main.js" type="text/javascript"></script>
+<!-- Time Line plugin-->
+<script type="text/javascript" src="js/timeline.js"></script>
+</body>
+</html>

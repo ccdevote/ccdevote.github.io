@@ -1,0 +1,31 @@
+#+TITLE: Elisp学习笔记一
+#+AUTHOR:Afanty
+#+EMAIL: ccdevote@gmail.com
+
+
+接触Emacs一年多了，从一无所知到津津乐道，Emacs带给我很多快乐，有的时候
+整个人都会沉浸在其中无法自拔。自从从github上forck了大神的代码以后，就越
+来越有信心了，开始尝试安装一些自己的插件，做一些简单的配置等等。最有成
+就感的应该就是基于jekyll在github上搭建了自己的博客，在Emacs里面用
+org-mode写好博客以后直接通过org-jekyll-mode导出，并且发布到github上，感
+觉很爽很快乐，所以现在也就喜欢写博客了，因为对着Emacs就像对着女朋友～真
+的百看不厌。想要搞好Emacs学好Elisp是很必要的，就在这段时间瞎折腾的过程
+中我感觉到了确实该搞以下Elisp，这样就会熟练的去折腾，随心所欲的去折腾了，
+折腾出来的东西即能符合自己要求也能更省时间，不用辛苦的去找插件找配置了。
+好了，开始我的Elisp之旅吧：）
+
+
+* nil and t
+
+lisp里面nil和()都有空的意思，但是通常情况下应该由nil来表示一个逻辑意义
+上的false，相应的true则由t来表示，t和nil一样，同时具有字面量意义。由()
+来表示一个空的列表。
+#+BEGIN_SRC lisp
+# Emphasize the empty list
+(cons 'foo ()) 
+# Emphasize the truth value false
+(setq foo-false nil)
+# Emphasize the truth value true
+(setq foo-true t)
+#+END_SRC
+

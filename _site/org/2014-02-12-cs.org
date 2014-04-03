@@ -1,0 +1,104 @@
+#+TITLE: 深入理解计算机系统
+#+AUTHOR: Anterior
+#+EMAIL: ccdevote@gmail.com
+* 链接
+** 动态共享库
+1.基本概念
++ *共享库* ：是一个目标模块在运行时可以加载到任意的存储器地址，并和一个在存储器中的程序链接起来。
++ *动态链接* ：共享库在运行时链接的过程叫做 /动态链接(dynamic linking)/ ，是由 /动态链接器(dynamic linker)/ 的程序来执行的。
++ 共享库也成为 *共享目标(shared object)* 在UNIX系统中通常用.so后缀表示，Windiows成为DLL（动态链接库）。
++ 动态链接一种是加载时链接，一种是运行时链接。
+2.执行流程
++ 在给定的任何文件系统中，对于一个库只有一个.so文件。所有引用该库的可执行目标文件共享这个.so文件中的代码和数据，而不止是像静态库的内容那样被拷贝和嵌入到可执行文件中。
++ 在存储器中，一个共享库的.text节的一个副本可以被不同的正在运行的进程共享。
+3.编译指令
+#+BEGIN_SRC c
+gcc -shared -fPIC -o libxxx.so xxx.c yyy.c # 通过这种方式创建动态链接库
+gcc -o p2 main2.c ./libxxx.so              # 编译时通过这种方式使用动态链接库
+#+END_SRC
++ -fPIC 选项指示 *编译器* 生成与位置无关的代码。
++ -shared 选项指示 *链接器* 创建一个共享的目标文件。
++ 虽然编译和链接的时候会用到动态链接库，但是却不是把动态链接库中的代码段和数据段拷贝到目标文件中。
++ 加载时链接：
+  - 当创建可执行文件时，静态执行一些链接，然后在程序加载时动态完成链接过程。
+  - 链接器只是拷贝了一些重定位和符号表信息，它们使得运行时可以解析对libxxx.so中代码和数据的引用。
+  - 加载时加载器会注意到p2中包含一个包含动态链接器路径名的.interp节，加载器加载和运行这个动态链接器。
+  - 动态链接器会执行以下内容：
+    * 重定位libc.so的文本和数据到某个存储器段
+    * 重定位libxxx.so的文本和数据到某个存储器段
+    * 重定位p2中所有对libc.so和libvector.so定义的符号的引用
+    * 最后动态链接器将控制传递给应用程序。从这个时刻开始，共享库的位置就固定了，并且在程序的执行过程中都不会改变
++ 运行时链接：
+  - 当应用程序需要时会动态地加载和链接适当的函数然后直接调用他，而不是使用fork和execve在子进程的上下文中运行函数。
+  - 函数会一直缓存在服务器的地址空间中，所以只需要一次加载链接的开销。
+  - 使用方式：
+  #+BEGIN_SRC c
+  #include <dlfcn.h>
+
+  /*
+   * 加载和链接共享库 filename
+   * param 0 :filename 共享库路径和名称
+   * param 1 :[RTLD_NOW(立即解析对外部符号的引用)|RTLD_LAZY(推迟符号解析直到运行库中的代码)] 如果编译时带-rdynamic选项，则全局符号可用
+   * return  :若成功则返回指向句柄的指针，出错则为NULL
+   */
+  void *dlopen(const char *filename,int flag);
+
+  /*
+   * 打开一个句柄的符号（获得动态执行的符号的地址）
+   * param 0 :由dlopen返回的句柄
+   * param 1 :符号名（函数或全局符号等)
+   * return  :若成功则返回符号的地址指针，出错则为NULL
+   */
+  void *dlsym(void *handle,char *symbol);
+
+  /*
+   * 如果没有其他共享库使用这个共享库，那么就卸载此共享库
+   * param 0 :由dlopen返回的句柄
+   * return  :成功返回0，失败返回1
+   */
+  void dlclose(void *handle);
+
+  /*
+   * 如果dlopen,dlsym或dlclose调用失败则返回相应的错误消息
+   * return  :dlopen,dlsym或dlclose调用失败则返回相应的错误消息,否则返回NULL
+   */
+  const char *dlerror(void);
+  #+END_SRC
+  - 例子：
+    #+BEGIN_SRC c
+/* -----------------xxx.c--------------------------------*/
+#include<stdio.h>
+void sayHello(const char * str)
+{
+    printf ("%s\n",str);
+}
+// gcc -shared -fPIC -o libxxx.so xxx.c -rdynamic
+
+/* -----------------main.c--------------------------------*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <dlfcn.h>
+int main(int argc, char *argv[]){
+    void *handle;
+    char * error;
+    void (*sayHello)(const char *);
+    if((handle = dlopen("./libxxx.so",RTLD_LAZY)) == NULL){
+        fprintf(stderr,"%s\n",dlerror());
+        return -1;
+    }
+    if((sayHello = dlsym(handle,"sayHello"))==NULL){
+        if((error = dlerror())!=NULL){
+            fprintf(stderr,"%s\n",error);
+            return -1;
+        }
+    }
+    sayHello("nice to meet you!");
+    if(dlclose(handle)<0){
+        fprintf(stderr,"%s\n",dlerror());
+        return -1;
+    }
+    return 0;
+}
+// gcc -o  main main.c -ldl
+//./main
+    #+END_SRC

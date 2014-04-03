@@ -1,2 +1,5 @@
 markdown: rdiscount
 pygments: true
+timezone: Asia/Shanghai
+paginate_path: 'page:num'
+permalink: none
