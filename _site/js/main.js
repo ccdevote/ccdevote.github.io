@@ -4,7 +4,6 @@
 $(document).ready(function(){
     var post= $("#post");
     var postImg = $("#post img");
-    console.log(post.width()*0.8);
     postImg.addClass("img-rounded").width(parseInt(post.width()*0.8));
     postImg.css({
        "margin-left":post.width()*0.1
