@@ -15,7 +15,6 @@ Java中的I/O分为传统IO、NIO、NIO2三类,标准IO是在java.io包中提供
 *InputStream* 的直接体系结构如下：
 #+BEGIN_SRC plantuml :file ../images/inputstream.png :cmdline -charset UTF-8
 @startuml
-scale 900 width
 InputStream <|--FileInputStream
 InputStream <|--ByteArrayInputStream
 InputStream <|--FilterInputStream
@@ -39,7 +38,6 @@ BufferedInputStream是一个包装类，用来包装InputStream，提供缓冲�
 *OutputStream* 的体系结构如下：
 #+BEGIN_SRC plantuml :file ../images/outputstream.png :cmdline -charset UTF-8
 @startuml
-scale 900 width
 OutputStream <|--FileOutputStream
 OutputStream <|--ByteArrayOutputStream
 OutputStream <|--FilterOutputStream

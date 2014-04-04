@@ -60,3 +60,8 @@ ul.timeline li .content pre {
 ul.timeline li.alt .content pre {
     background-color: #43B1F1;
 }
+ul.timeline li.alt .content pre a{
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(255,255,255,.25);
+    background-color: #43B1F1;
+}

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Java I/O 学习笔记
+category: java
 ---
 <p>
 Java中的I/O分为传统IO、NIO、NIO2三类,标准IO是在java.io包中提供的最
@@ -50,5 +51,11 @@ BufferedInputStream是一个包装类，用来包装InputStream，提供缓冲�
 <p><img src="/../images/outputstream.png" alt="outputstream.png" />
 </p>
 </div>
+
+<p>
+同样常用的有FileOutputStream用来支持文件写入操作。BufferedOutputStream
+该类实现缓冲的输出流。通过设置这种输出流，应用程序就可以将各个字节写入
+底层输出流中，而不必针对每次字节写入调用底层系统。
+</p>
 </div>
 </div>
