@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<ol class="breadcrumb">
+  <li><a href="/index.html">首页</a></li>
+  <li class="active">TAGS</li>
+</ol>
+<ul class="timeline"> 
+{% for tag in site.tags %}
+   <li>
+      <div id="{{tag[0]}}" class="time">{{tag[0]}}</div>
+      <div class="number"></div>
+      <div class="content">
+	{% for post in site.posts %}
+	  {% if post.tags contains tag[0] %}
+          <pre><a href="{{post.url}}">{{post.title}}</a></pre>
+	  {% endif %}
+	{% endfor %}
+      </div>
+    </li>
+{% endfor %}
+</ul>

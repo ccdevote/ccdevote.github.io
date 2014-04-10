@@ -1,0 +1,21 @@
+---
+layout: default
+title: Afanty-读书笔记
+---
+<ol class="breadcrumb">
+  <li><a href="/index.html">首页</a></li>
+  <li class="active">读书笔记</li>
+</ol>
+<ul class="timeline">
+       <li>
+	    <div class="time">读书笔记</div>
+	    <div class="number"></div>
+	    <div class="content">
+	      {% for post in site.posts %}
+	         {% if post.category contains "读书笔记" %}
+	             <pre><a href="{{ post.url }}">{{ post.title }}</a></pre>
+		 {% endif %}
+	      {% endfor %}
+	    </div>
+       </li>
+</ul>

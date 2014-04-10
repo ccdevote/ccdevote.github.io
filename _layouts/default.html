@@ -27,34 +27,40 @@
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to my blog!</h1>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-7">
-            <div class="logo" height="400px">
-                Logo
-            </div>
-        </div>
-        <div  class="col-md-5">
-            <div class="navbar navbar-info nav-holder" role="navigation">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/index.html">Afanty</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li class="basic-menu" ><a href="/index.html">首页</a></li>
-                    <li class="basic-menu" ><a href="about.html">关于我</a></li>
-                </ul>
-            </div>
-        </div>
+  <div class="panel-divider"></div>
+  <div class="row">
+    <div class="col-md-2">
+      <div class="logo">
+	<img src="/images/logo.jpg" width="80px" height="80px" class="img-circle" alt="Afanty" />
+      </div>
     </div>
+    <div class="col-md-6">
+	<h2>welcome to my blog</h2>
+    </div>
+    <div class="col-md-4">
+      <div class="panel-divider"></div>
+      <nav class="navbar navbar-default" role="navigation">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav">
+	    <span class="sr-only">Toggle navigation</span>
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand"  href="/index.html">Afanty</a>
+	</div>
+
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse" id="nav">
+	  <ul class="nav navbar-nav">
+	    <li class="basic-menu" ><a href="/index.html">首页</a></li>
+	    <li class="basic-menu" ><a href="/about.html">关于我</a></li>
+	  </ul>
+	</div><!-- /.navbar-collapse -->
+      </nav>
+    </div>
+  </div>
 </div>
 <hr>
 <div class="container">
@@ -64,38 +70,45 @@
                 <div class="panel-heading">统计信息</div>
                 <div class="panel-body">
                     <ul>
-                        <li>文章数：</li>
-                        <li>访客数：</li>
+                        <li>文章总数：{{ site.posts|size }}</li>
                     </ul>
                 </div>
             </div>
             <div class="panel-divider"></div>
             <div class="panel-info">
-                <div class="panel-heading">分类信息</div>
+                <div class="panel-heading">分类信息<span class="badge pull-right">{{site.categories|size}}</span></div>
                 <div class="panel-body">
-                    <ul>
-                        <li>文章数：</li>
-                        <li>访客数：</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel-divider"></div>
-            <div class="panel-info">
-                <div class="panel-heading">相关文章</div>
-                <div class="panel-body">
-                    <ul>
-                        <li>文章数：</li>
-                        <li>访客数：</li>
+  		    <ul class="categories">
+		      {% for cat in site.categories%}
+		      <li><a href="{{site.url}}/{{cat[0]}}/">{{cat[0]}}<span class="badge pull-right">{{cat[1]|size}}</span></a></li>
+		      {% endfor %}
                     </ul>
                 </div>
             </div>
 	    <div class="panel-divider"></div>
             <div class="panel-info">
-                <div class="panel-heading">评论信息</div>
+                <div class="panel-heading">标签<span class="badge pull-right">{{site.tags|size}}</span></div>
                 <div class="panel-body">
-                    <ul>
-                        <li>文章数：</li>
-                        <li>访客数：</li>
+  		    <ul class="list-inline">
+		      {% for cat in site.tags %}
+		      {% assign count={{cat[1]|size}} %}
+		      {% assign color="info" %}
+		      {% if count > 5 %}
+                         {% assign color="warning" %}
+                      {% elsif count>10 %}
+                         {% assign color="danger" %}
+                      {% endif %}
+		      <li>
+			<a href="{{site.url}}/list-tags.html#{{cat[0]}}">
+			  <span class="label label-{{color}}">
+			    {{cat[0]}}
+			    <span class="badge">
+			      {{cat[1]|size}}
+		            </span>
+		          </span>
+		        </a>
+		      </li>
+		      {% endfor %}
                     </ul>
                 </div>
             </div>

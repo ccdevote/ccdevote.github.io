@@ -8,13 +8,17 @@ $(document).ready(function(){
     postImg.css({
        "margin-left":post.width()*0.1
     });
+    $("table").addClass("table table-bordered").css({"margin-left":post.width()*0.1}).width(post.width()*0.8);
     $(window).resize(function(){
         postImg.width(parseInt(post.width())*0.8);
         postImg.css({
             "margin-left":parseInt(post.width())*0.1
         });
+        $("table").css({
+	  "margin-left":post.width()*0.1
+	}).width(parseInt(post.width())*0.8);
     });
-
+  
   // Top Bar
   $('#goto_top_btn').click(function() {
         var s = $(window).scrollTop(),h = $(window).height();

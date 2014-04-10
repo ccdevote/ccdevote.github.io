@@ -3,15 +3,11 @@ layout: default
 title: Afanty
 ---
 <ul class="timeline">
-  <!-- {% for post in site.posts %} -->
-  <!--     <li><span>{{ post.date | date_to_string}}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li> -->
-  <!--     <\!-- <p>{{post.excerpt}}</p> -\-> -->
-  <!--     {% endfor %} -->
   {% assign date="" %}
   {% for post in site.posts %}
       {% if forloop.first %}
           {% assign date = post.date %}
-           <li>
+          <li>
 	    <div class="time">{{post.date|date_to_string}}</div>
 	    <!-- <div class="version">{{date|date_to_string}}</div> -->
 	    <div class="number"></div>

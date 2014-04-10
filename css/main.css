@@ -3,13 +3,16 @@ hr{
 }
 /* Nav */
 .navbar-default {
-    border-color: #d9534f;
+    /* border-color: #d9534f; */
+    border-color:#43B1F1;
 }
 .navbar-default .navbar-nav > li >a{
-    color: #d9534f;
+    /* color: #d9534f; */
+    color:#43B1F1;
 }
 .navbar-default .navbar-nav >li >a:hover{
-    background-color: #d9534f;
+    /* background-color: #d9534f; */
+    background-color:#43B1F1;
 }
 .navbar-info{
     border: 2px solid #43B1F1;
@@ -48,8 +51,22 @@ hr{
 .img-rounded{
     border:2px dashed #428bca;
 }
-
 /* /End of img */
+.categories{
+
+}
+.tags > li{
+    display:inline;
+    float:left;
+    list-style:none;
+}
+.badge>a{
+    color:#fff
+}
+.icon-bar{
+    color:#428bca;
+    background-color:#428bca;
+}
 /*TO TOP Button CSS*/
 .fix-layout {
     bottom: 20px;

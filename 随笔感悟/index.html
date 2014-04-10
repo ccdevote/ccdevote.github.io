@@ -1,0 +1,21 @@
+---
+layout: default
+title:Afanty-随笔感悟
+---
+<ol class="breadcrumb">
+  <li><a href="/index.html">首页</a></li>
+  <li class="active">随笔感悟</li>
+</ol>
+<ul class="timeline">
+       <li>
+	    <div class="time">随笔感悟</div>
+	    <div class="number"></div>
+	    <div class="content">
+	      {% for post in site.posts %}
+	         {% if post.category contains "随笔感悟" %}
+	             <pre><a href="{{ post.url }}">{{ post.title }}</a></pre>
+		 {% endif %}
+	      {% endfor %}
+	    </div>
+       </li>
+</ul>

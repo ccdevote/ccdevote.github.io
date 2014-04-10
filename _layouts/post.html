@@ -1,23 +1,36 @@
 ---
 layout: default
 ---
-<h1>{{page.title}}</h1>
-总字数：{{page.content | number_of_words}}|类别:{{page.category}}
+<h1>
+  {{page.title}}
+  <small>
+    {% for cat in page.tags %}
+    <span class="badge badge-info"><a href="/list-tags.html#{{cat}}">{{cat}}</a></span>
+    {% endfor %}
+    <span class="badge badge-info pull-right">字数：{{page.content|number_of_words}}</span>
+  </small>
+</h1>
+
+<ol class="breadcrumb">
+  <li><a href="/index.html">首页</a></li>
+  <li><a href="/{{page.category}}/">{{page.category}}</a></li>
+  <li class="active">{{page.title}}</li>
+</ol>
 <div id="post">
+
 {{ content }}
 </div>
+<div class="related">
+  <h1><small>相关推荐：</small></h1>
+  <ul class="list-unstyled">
+    {% for post in site.related_posts limit:5 %}
+      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
 
-<!-- <div id="related"> -->
-<!--   <h2>Related Posts</h2> -->
-<!--   <ul class="posts"> -->
-<!--     {% for post in site.related_posts limit:3 %} -->
-<!--       <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li> -->
-<!--     {% endfor %} -->
-<!--   </ul> -->
-<!-- </div> -->
 <!-- comments powered by Disqus-->
 <div class="panel-divider"></div>
-
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
