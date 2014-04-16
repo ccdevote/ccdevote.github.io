@@ -5,6 +5,44 @@ tags:
   - [emacs,org-mode]
 category: 技术博客
 ---
+<div id="table-of-contents">
+<h2>大纲</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 简介</a></li>
+<li><a href="#sec-2">2. 安装配置</a></li>
+<li><a href="#sec-3">3. 文章排版</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 注脚</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. 表格</a>
+<ul>
+<li><a href="#sec-4-1">4.1. 创建表格</a></li>
+<li><a href="#sec-4-2">4.2. 表格计算</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. 超链接</a></li>
+<li><a href="#sec-6">6. <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></a>
+<ul>
+<li><a href="#sec-6-1">6.1. <span class="done DONE">DONE</span> 基本用法</a></li>
+<li><a href="#sec-6-2">6.2. <span class="todo WAITING">WAITING</span> 多状态工作流</a></li>
+<li><a href="#sec-6-3">6.3. 进度日志</a></li>
+<li><a href="#sec-6-4">6.4. <span class="todo TODO">TODO</span> 优先级任务</a></li>
+<li><a href="#sec-6-5">6.5. 拆分任务</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. Tags</a></li>
+<li><a href="#sec-8">8. 优先任务</a></li>
+<li><a href="#sec-9">9. 日期和时间</a></li>
+<li><a href="#sec-10">10. Capture-Refile-Archive</a></li>
+<li><a href="#sec-11">11. Agenda Views</a></li>
+<li><a href="#sec-12">12. 导出</a></li>
+<li><a href="#sec-13">13. 发布</a></li>
+<li><a href="#sec-14">14. 源代码模式</a></li>
+</ul>
+</div>
+</div>
 
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> 简介</h2>
@@ -38,10 +76,434 @@ org-mode是emacs下一个强大的模式，提供了丰富的工作套件，可�
 
 <pre class="src src-elisp">(add-to-list 'auto-mode-alist '(<span style="color: #66cccc;">"\\.org\\'"</span> . org-mode)) <span style="color: #999999; font-style: italic;">; </span><span style="color: #999999; font-style: italic;">not needed since Emacs 22.2</span>
 (add-hook 'org-mode-hook 'turn-on-font-lock) <span style="color: #999999; font-style: italic;">; </span><span style="color: #999999; font-style: italic;">not needed when global-font-lock-mode is on</span>
-(global-set-key <span style="color: #66cccc;">"\C-cl"</span> 'org-store-link)
-(global-set-key <span style="color: #66cccc;">"\C-ca"</span> 'org-agenda)
-(global-set-key <span style="color: #66cccc;">"\C-cb"</span> 'org-iswitchb)
+(define-key global-map (kbd <span style="color: #66cccc;">"C-c l"</span>) 'org-store-link)
+(define-key global-map (kbd <span style="color: #66cccc;">"C-c a"</span>) 'org-agenda)
+(define-key global-map (kbd <span style="color: #66cccc;">"C-c c"</span>) 'org-capture)
+(define-key global-map (kbd <span style="color: #66cccc;">"C-c b"</span>) 'org-iswitchb)
+</pre>
+</div>
+<p>
+<b>org-store-link</b> is something。
+<b>org-agenda</b> is something。
+<b>org-capture</b> is something。
+<b>org-iswitchb</b> 是在所有打开的org文件的buffer之间切换。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 文章排版</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 注脚</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+在写文章的过程中经常用到注脚，用来对某段话或某个词语进行解释，org-mode
+中添加注脚的方式非常简单，只需要把光标移动到需要添加注脚的单词后面，然
+后输入命令：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-x f
+</pre>
+</div>
+<p>
+再填写好注脚的解释就OK了。此外还可以通过快捷键快速的在注脚和对注脚的解
+释之间切换：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-c
 </pre>
 </div>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 表格</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 创建表格</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+org-mode可以方便的创建表格，并且可以对表格进行计算，就想excel一样，非常
+神奇，在org-mode中‘|’符号会被用来当作表格的一部分，‘|’符号也是表格中的
+列分隔符，org-mode中的表格看起来是这样的：
+</p>
+<pre class="example">
+| ID | NAME | PASSWORD |
+|----+------+----------|
+|  1 | jack |      123 |
+|  2 | lily |      456 |
+</pre>
+<p>
+当你看到这个神奇的表格可能会被吓出一身汗,要每一个符号都手动敲上去得费些
+力气了……不过在org-mode下，一切都会来的更容易些。你只需要输入：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c |
+</pre>
+</div>
+<p>
+就会在命令buffer中提示：Table size Columns x Rows [e.g 5x3]意思就是说输
+入一个数字i再输入x再输入一个数字j就可以创建出一个i*j大小的表格了，是不
+是很方便？我们创建一个3*3的表格：
+</p>
+<pre class="example">
+|   |   |   |
+|---+---+---|
+|   |   |   |
+|   |   |   |
+</pre>
+<p>
+在‘&#x2014;+&#x2014;’上面的部分是表头，下面的部分是内容,列由‘|’隔开。按照示例填好
+内容就可以了。
+</p>
+<pre class="example">
+| ID | NAME | PASSWORD |
+|----+------+----------|
+|  1 | jack |      123 |
+|  2 | lily |      456 |
+</pre>
+<p>
+是不是很美观？其实这还不算什么，用org-mode导出后可以展示的更好看，比如
+说我们导出为HTML格式的文件后表格就会对应生成&lt;table&gt;标签，我们可以为
+table添加样式，让它展现的更加美观，我就是用的Bootstrap的table样式，导出
+后的效果就是这样：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">ID</th>
+<th scope="col" class="left">NAME</th>
+<th scope="col" class="right">PASSWORD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">jack</td>
+<td class="right">123</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">lily</td>
+<td class="right">456</td>
+</tr>
+</tbody>
+</table>
+<p>
+瞬间高大上有木有？
+</p>
+
+
+<p>
+使用快捷键 <b>C-c |</b> 创建表格是一种简单方式，我们清楚表格的大小就比较方便，但
+是如果我们不知道有几行几列，该怎么办？其实也很容易只需要输入|-然后按
+TAB就可以创建出一个表格了，这个表格默认是2行5列，如下：
+</p>
+<pre class="example">
+|   |   |   |   |   |
+|---+---+---+---+---|
+|   |   |   |   |   |
+</pre>
+<p>
+表格创建好后就可以填写数据，在填写数据的时候下面几个快捷键是比较有用的:
+</p>
+<ol class="org-ol">
+<li>对齐和移动
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-c &#22312;&#19981;&#31227;&#21160;&#20809;&#26631;&#30340;&#24773;&#20917;&#19979;&#23545;&#40784;&#34920;&#26684;&#20869;&#23481;
+TAB     &#27700;&#24179;&#21518;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#34920;&#26684;&#65292;&#22914;&#26377;&#38656;&#35201;&#21017;&#33258;&#21160;&#25442;&#34892;&#25110;&#36861;&#21152;&#26032;&#34892;
+S-TAB   &#27700;&#24179;&#21069;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#34920;&#26684;
+RET     &#22402;&#30452;&#19979;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#65292;&#22914;&#26524;&#38656;&#35201;&#21017;&#21017;&#21160;&#25442;&#34892;&#25110;&#36861;&#21152;&#26032;&#34892;
+</pre>
+</div>
+</li>
+<li>行列编辑
+<div class="org-src-container">
+
+<pre class="src src-elisp">M-LEFT /      M-RIGHT &#24038;/&#21491;&#31227;&#21160;&#24403;&#21069;&#21015;
+M-S-LEFT      &#21024;&#38500;&#24403;&#21069;&#21015;
+M-S-RIGHT     &#22312;&#20809;&#26631;&#24038;&#28155;&#21152;&#21015;
+M-UP / M-DOWN &#19978;/&#19979;&#31227;&#21160;&#24403;&#21069;&#34892;
+M-S-UP        &#21024;&#38500;&#24403;&#21069;&#34892;&#25110;&#34892;&#20998;&#21106;&#32447;
+M-S-DOWN      &#22312;&#24403;&#21069;&#34892;&#19978;&#25554;&#20837;&#26032;&#34892;
+C-c -         &#22312;&#24403;&#21069;&#34892;&#19979;&#25554;&#20837;&#27700;&#24179;&#20998;&#21106;&#32447;
+C-c RET       &#22312;&#24403;&#21069;&#34892;&#19979;&#25554;&#20837;&#27700;&#24179;&#20998;&#21106;&#32447;&#65292;&#24182;&#31227;&#21160;&#20809;&#26631;&#21040;&#20998;&#21106;&#32447;&#19979;
+C-c ^         &#23545;&#24403;&#21069;&#21015;&#25490;&#24207;
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 表格计算</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+实验toct again again 汉字gnuplot
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Sede</th>
+<th scope="col" class="right">Max cites</th>
+<th scope="col" class="right">H-index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Chile</td>
+<td class="right">257.72</td>
+<td class="right">21.39</td>
+</tr>
+
+<tr>
+<td class="left">Leeds</td>
+<td class="right">165.77</td>
+<td class="right">19.68</td>
+</tr>
+
+<tr>
+<td class="left">Sao Paolo</td>
+<td class="right">71.00</td>
+<td class="right">11.50</td>
+</tr>
+
+<tr>
+<td class="left">Stockholm</td>
+<td class="right">134.19</td>
+<td class="right">14.33</td>
+</tr>
+
+<tr>
+<td class="left">Morelia</td>
+<td class="right">257.56</td>
+<td class="right">17.67</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 超链接</h2>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <span class="done DONE">DONE</span> 基本用法</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>State "DONE"       from "TODO"       <span class="timestamp-wrapper"><span class="timestamp">[2014-04-17 四 01:22]</span></span>
+</li>
+</ul>
+<p>
+TODO列表对我们日常工作帮助很大，可以方便的记录待办事项，并且跟踪没一件
+事的工作状态，让我们可以轻松的创建工作计划，并且帮助自己管理好时间，还
+可以通过Agenda生成工作报告……绝对值得一学。使用TODO的方法非常简单，下面
+是基本的TODO列表操作的快捷键：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp"># &#20026;&#26631;&#39064;&#28155;&#21152;TODO
+C-c C-t
+# &#26174;&#31034;&#25152;&#26377;&#26631;&#35760;TODO&#30340;&#26631;&#39064;&#65292;&#25240;&#21472;&#36825;&#20123;&#26631;&#39064;&#30340;&#20869;&#23481;
+C-c / t
+# &#26174;&#31034;&#20840;&#23616;TODO&#21015;&#34920;&#65292;&#20250;&#20174;&#25152;&#26377;&#30340;Agenda File&#20013;&#25163;&#26426;TODO&#20449;&#24687;&#65292;&#32479;&#35745;&#21040;&#19968;&#20010;Buffer&#20013;
+C-c a t
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> <span class="todo WAITING">WAITING</span> 多状态工作流</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>State "WAITING"    from "TODO"       <span class="timestamp-wrapper"><span class="timestamp">[2014-04-17 四 01:29]</span></span> <br  />
+     meetting
+</li>
+</ul>
+<p>
+可以通过配置TODO支持的关键字让TODO列表维护更多的工作状态。在Emacs配置文
+件中加入如下代码：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">(setq org-todo-keywords
+'((sequence <span style="color: #66cccc;">"TODO"</span> <span style="color: #66cccc;">"STARTED"</span> <span style="color: #66cccc;">"WAITING"</span> <span style="color: #66cccc;">"|"</span> <span style="color: #66cccc;">"DONE"</span> <span style="color: #66cccc;">"CANCELLED"</span>)))
+</pre>
+</div>
+<p>
+配置中出现的“|”是分隔待办事项和已完成事项的，配置好后可以通过快捷键测试
+一下，输入 <b>C-c C-t</b> 会发现状态按照如下顺序转换：
+</p>
+<pre class="example">
+TODO-&gt;STARTED-&gt;WAITING-&gt;DONE-&gt;CANCELLED-&gt;TODO
+</pre>
+<p>
+虽然不断的按C-c C-t可以循环的达到不同的状态，但是还不够高效，能够直接选
+择需要使用的状态才比较高效，org-mode同样提供了实现这种操作的方式：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">(setq org-todo-keywords
+'((sequence <span style="color: #66cccc;">"TODO(t)"</span> <span style="color: #66cccc;">"|"</span> <span style="color: #66cccc;">"DONE(d)"</span>)
+(sequence <span style="color: #66cccc;">"REPORT(r)"</span> <span style="color: #66cccc;">"BUG(b)"</span> <span style="color: #66cccc;">"KNOWNCAUSE(k)"</span> <span style="color: #66cccc;">"|"</span> <span style="color: #66cccc;">"FIXED(f)"</span>)
+(sequence <span style="color: #66cccc;">"|"</span> <span style="color: #66cccc;">"CANCELED(c)"</span>)))
+</pre>
+</div>
+<p>
+每一个关键字后面括号中的字母就代表了直接到达该状态的快捷键，如我们输入
+<b>C-c C-t t</b> 就会直接把待办事项标记为TODO状态。上面的代码同样教会了我们
+如何定义多个工作流，比如第一个sequence定义了TODO/DONE而第二个sequence
+定义了Bugfix的流程。定义状态不仅可以在配置文件中定义，也可以在文章的任
+意地方定义，只需要在文章中加入如下声明就可以定义了：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">#+TODO: TODO(t) | DONE(d)
+#+TODO: REPORT(r) BUG(b) KNOWNCAUSE(k) | FIXED(f)
+#+TODO: | CANCELED(c)
+</pre>
+</div>
+<p>
+和上面在配置文件中实现的效果一样。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> 进度日志</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Org mode能够自动的记录状态变化的时间戳和提示信息,最基础的日志记录就是
+当任务从TODO到达结束状态时通过如下代码记录时间和提示信息：
+</p>
+<pre class="example">
+# 记录时间
+(setq org-log-done 'time)
+# 记录提示信息
+(setq org-log-done 'note)
+</pre>
+<p>
+我们可以配置org mode使其能够自动跟踪任务的状态，如果任务改变，就记录时
+间戳或者提示信息，这需要对每一个状态重新进行定义了，其实也很简单，只需
+要‘!’ （for timestamp）和‘@’（for a note）例如我们为在多状态流小节使用
+的例子配置跟中功能，就需要像下面这样重新定义：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">(setq org-todo-keywords
+'((sequence <span style="color: #66cccc;">"TODO(t)"</span> <span style="color: #66cccc;">"STARTED"</span> <span style="color: #66cccc;">"WAITING(w@/!"</span> <span style="color: #66cccc;">"|"</span> <span style="color: #66cccc;">"DONE(d!)"</span> <span style="color: #66cccc;">"CANCELLED(c@)"</span>)))
+</pre>
+</div>
+<p>
+这样当状态转变为WAITING时就会在任务下方显示timestamp和note了，同样如果
+状态变为DONE就只显示timestamp，变为CANCELLED就只显示note。在添加note时
+可以让org mode单独打开一个buffer用来编写note，然后输入完后按C-c C-c就
+可以提交note了，不过需要加入如下设置：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #999999; font-style: italic;">;; </span><span style="color: #999999; font-style: italic;">Save clock data and notes in the LOGBOOK drawer</span>
+(setq org-clock-into-drawer t)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> 优先级任务</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+TODO列表可以为不同的任务指定优先级，只需要在状态后面加入[#A]就可以把这
+个任务指定为高优先级的了。常用的优先级有A、B、C三种，A最高，B其次（默
+认），C最低。指定了优先级以后会在Agenda中区分。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">TODO [#A] Do Something
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-5" class="outline-3">
+<h3 id="sec-6-5"><span class="section-number-3">6.5</span> 拆分任务</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+当任务很大时我们可以细化拆分任务，在org mode中有两种方式拆分任务，一种
+是像写文章一样拆分成树状，另外一种就是Checkbox。下面分别介绍这两种：
+</p>
+<ol class="org-ol">
+<li>树状结构
+</li>
+</ol>
+<p>
+树状结构如下所示：
+</p>
+
+<p>
+<img src="file:///images/org-mode-basic-1-1.png" alt="tree" title="tree" align="#+BEGIN_CENTER" />
+#+END_CENTER
+<a href="/path">/path</a>
+</p>
+<ol class="org-ol">
+<li>Checkbox
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Tags</h2>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 优先任务</h2>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> 日期和时间</h2>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Capture-Refile-Archive</h2>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Agenda Views</h2>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> 导出</h2>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> 发布</h2>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> 源代码模式</h2>
 </div>
