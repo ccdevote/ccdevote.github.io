@@ -1,0 +1,212 @@
+---
+layout: post
+title: org-mode之表格系统
+tags:
+  - [emacs,org-mode]
+category: 技术博客
+---
+<div id="table-of-contents">
+<h2>大纲</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 表格</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 创建表格</a></li>
+<li><a href="#sec-1-2">1.2. 表格计算</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 表格</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 创建表格</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+org-mode可以方便的创建表格，并且可以对表格进行计算，就想excel一样，非常
+神奇，在org-mode中‘|’符号会被用来当作表格的一部分，‘|’符号也是表格中的
+列分隔符，org-mode中的表格看起来是这样的：
+</p>
+<pre class="example">
+| ID | NAME | PASSWORD |
+|----+------+----------|
+|  1 | jack |      123 |
+|  2 | lily |      456 |
+</pre>
+<p>
+当你看到这个神奇的表格可能会被吓出一身汗,要每一个符号都手动敲上去得费些
+力气了……不过在org-mode下，一切都会来的更容易些。你只需要输入：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c |
+</pre>
+</div>
+<p>
+就会在命令buffer中提示：Table size Columns x Rows [e.g 5x3]意思就是说输
+入一个数字i再输入x再输入一个数字j就可以创建出一个i*j大小的表格了，是不
+是很方便？我们创建一个3*3的表格：
+</p>
+<pre class="example">
+|   |   |   |
+|---+---+---|
+|   |   |   |
+|   |   |   |
+</pre>
+<p>
+在‘&#x2014;+&#x2014;’上面的部分是表头，下面的部分是内容,列由‘|’隔开。按照示例填好
+内容就可以了。
+</p>
+<pre class="example">
+| ID | NAME | PASSWORD |
+|----+------+----------|
+|  1 | jack |      123 |
+|  2 | lily |      456 |
+</pre>
+<p>
+是不是很美观？其实这还不算什么，用org-mode导出后可以展示的更好看，比如
+说我们导出为HTML格式的文件后表格就会对应生成&lt;table&gt;标签，我们可以为
+table添加样式，让它展现的更加美观，我就是用的Bootstrap的table样式，导出
+后的效果就是这样：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">ID</th>
+<th scope="col" class="left">NAME</th>
+<th scope="col" class="right">PASSWORD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">jack</td>
+<td class="right">123</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">lily</td>
+<td class="right">456</td>
+</tr>
+</tbody>
+</table>
+<p>
+瞬间高大上有木有？
+</p>
+
+
+<p>
+使用快捷键 <b>C-c |</b> 创建表格是一种简单方式，我们清楚表格的大小就比较方便，但
+是如果我们不知道有几行几列，该怎么办？其实也很容易只需要输入|-然后按
+TAB就可以创建出一个表格了，这个表格默认是2行5列，如下：
+</p>
+<pre class="example">
+|   |   |   |   |   |
+|---+---+---+---+---|
+|   |   |   |   |   |
+</pre>
+<p>
+表格创建好后就可以填写数据，在填写数据的时候下面几个快捷键是比较有用的:
+</p>
+<ol class="org-ol">
+<li>对齐和移动
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-c &#22312;&#19981;&#31227;&#21160;&#20809;&#26631;&#30340;&#24773;&#20917;&#19979;&#23545;&#40784;&#34920;&#26684;&#20869;&#23481;
+TAB     &#27700;&#24179;&#21518;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#34920;&#26684;&#65292;&#22914;&#26377;&#38656;&#35201;&#21017;&#33258;&#21160;&#25442;&#34892;&#25110;&#36861;&#21152;&#26032;&#34892;
+S-TAB   &#27700;&#24179;&#21069;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#34920;&#26684;
+RET     &#22402;&#30452;&#19979;&#31227;&#20809;&#26631;&#65292;&#33258;&#21160;&#23545;&#40784;&#65292;&#22914;&#26524;&#38656;&#35201;&#21017;&#21017;&#21160;&#25442;&#34892;&#25110;&#36861;&#21152;&#26032;&#34892;
+</pre>
+</div>
+</li>
+<li>行列编辑
+<div class="org-src-container">
+
+<pre class="src src-elisp">M-LEFT /      M-RIGHT &#24038;/&#21491;&#31227;&#21160;&#24403;&#21069;&#21015;
+M-S-LEFT      &#21024;&#38500;&#24403;&#21069;&#21015;
+M-S-RIGHT     &#22312;&#20809;&#26631;&#24038;&#28155;&#21152;&#21015;
+M-UP / M-DOWN &#19978;/&#19979;&#31227;&#21160;&#24403;&#21069;&#34892;
+M-S-UP        &#21024;&#38500;&#24403;&#21069;&#34892;&#25110;&#34892;&#20998;&#21106;&#32447;
+M-S-DOWN      &#22312;&#24403;&#21069;&#34892;&#19978;&#25554;&#20837;&#26032;&#34892;
+C-c -         &#22312;&#24403;&#21069;&#34892;&#19979;&#25554;&#20837;&#27700;&#24179;&#20998;&#21106;&#32447;
+C-c RET       &#22312;&#24403;&#21069;&#34892;&#19979;&#25554;&#20837;&#27700;&#24179;&#20998;&#21106;&#32447;&#65292;&#24182;&#31227;&#21160;&#20809;&#26631;&#21040;&#20998;&#21106;&#32447;&#19979;
+C-c ^         &#23545;&#24403;&#21069;&#21015;&#25490;&#24207;
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 表格计算</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+实验toct again again 汉字gnuplot
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Sede</th>
+<th scope="col" class="right">Max cites</th>
+<th scope="col" class="right">H-index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Chile</td>
+<td class="right">257.72</td>
+<td class="right">21.39</td>
+</tr>
+
+<tr>
+<td class="left">Leeds</td>
+<td class="right">165.77</td>
+<td class="right">19.68</td>
+</tr>
+
+<tr>
+<td class="left">Sao Paolo</td>
+<td class="right">71.00</td>
+<td class="right">11.50</td>
+</tr>
+
+<tr>
+<td class="left">Stockholm</td>
+<td class="right">134.19</td>
+<td class="right">14.33</td>
+</tr>
+
+<tr>
+<td class="left">Morelia</td>
+<td class="right">257.56</td>
+<td class="right">17.67</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>

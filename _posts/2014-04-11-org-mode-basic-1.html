@@ -1,6 +1,6 @@
 ---
 layout: post
-title: org-mode基础入门一
+title: org-mode简介
 tags:
   - [emacs,org-mode]
 category: 技术博客
@@ -11,35 +11,30 @@ category: 技术博客
 <ul>
 <li><a href="#sec-1">1. 简介</a></li>
 <li><a href="#sec-2">2. 安装配置</a></li>
-<li><a href="#sec-3">3. 文章排版</a>
+<li><a href="#sec-3">3. 表格</a>
 <ul>
-<li><a href="#sec-3-1">3.1. 注脚</a></li>
+<li><a href="#sec-3-1">3.1. 创建表格</a></li>
+<li><a href="#sec-3-2">3.2. 表格计算</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">4. 表格</a>
+<li><a href="#sec-4">4. 超链接</a></li>
+<li><a href="#sec-5">5. <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></a>
 <ul>
-<li><a href="#sec-4-1">4.1. 创建表格</a></li>
-<li><a href="#sec-4-2">4.2. 表格计算</a></li>
+<li><a href="#sec-5-1">5.1. <span class="done DONE">DONE</span> 基本用法</a></li>
+<li><a href="#sec-5-2">5.2. <span class="todo WAITING">WAITING</span> 多状态工作流</a></li>
+<li><a href="#sec-5-3">5.3. 进度日志</a></li>
+<li><a href="#sec-5-4">5.4. <span class="todo TODO">TODO</span> 优先级任务</a></li>
+<li><a href="#sec-5-5">5.5. 拆分任务</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">5. 超链接</a></li>
-<li><a href="#sec-6">6. <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></a>
-<ul>
-<li><a href="#sec-6-1">6.1. <span class="done DONE">DONE</span> 基本用法</a></li>
-<li><a href="#sec-6-2">6.2. <span class="todo WAITING">WAITING</span> 多状态工作流</a></li>
-<li><a href="#sec-6-3">6.3. 进度日志</a></li>
-<li><a href="#sec-6-4">6.4. <span class="todo TODO">TODO</span> 优先级任务</a></li>
-<li><a href="#sec-6-5">6.5. 拆分任务</a></li>
-</ul>
-</li>
-<li><a href="#sec-7">7. Tags</a></li>
-<li><a href="#sec-8">8. 优先任务</a></li>
-<li><a href="#sec-9">9. 日期和时间</a></li>
-<li><a href="#sec-10">10. Capture-Refile-Archive</a></li>
-<li><a href="#sec-11">11. Agenda Views</a></li>
-<li><a href="#sec-12">12. 导出</a></li>
-<li><a href="#sec-13">13. 发布</a></li>
-<li><a href="#sec-14">14. 源代码模式</a></li>
+<li><a href="#sec-6">6. Tags</a></li>
+<li><a href="#sec-7">7. 优先任务</a></li>
+<li><a href="#sec-8">8. 日期和时间</a></li>
+<li><a href="#sec-9">9. Capture-Refile-Archive</a></li>
+<li><a href="#sec-10">10. Agenda Views</a></li>
+<li><a href="#sec-11">11. 导出</a></li>
+<li><a href="#sec-12">12. 发布</a></li>
+<li><a href="#sec-13">13. 源代码模式</a></li>
 </ul>
 </div>
 </div>
@@ -90,42 +85,12 @@ org-mode是emacs下一个强大的模式，提供了丰富的工作套件，可�
 </p>
 </div>
 </div>
-
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> 文章排版</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> 表格</h2>
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 注脚</h3>
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 创建表格</h3>
 <div class="outline-text-3" id="text-3-1">
-<p>
-在写文章的过程中经常用到注脚，用来对某段话或某个词语进行解释，org-mode
-中添加注脚的方式非常简单，只需要把光标移动到需要添加注脚的单词后面，然
-后输入命令：
-</p>
-<div class="org-src-container">
-
-<pre class="src src-elisp">C-c C-x f
-</pre>
-</div>
-<p>
-再填写好注脚的解释就OK了。此外还可以通过快捷键快速的在注脚和对注脚的解
-释之间切换：
-</p>
-<div class="org-src-container">
-
-<pre class="src src-elisp">C-c C-c
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> 表格</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 创建表格</h3>
-<div class="outline-text-3" id="text-4-1">
 <p>
 org-mode可以方便的创建表格，并且可以对表格进行计算，就想excel一样，非常
 神奇，在org-mode中‘|’符号会被用来当作表格的一部分，‘|’符号也是表格中的
@@ -252,9 +217,9 @@ C-c ^         &#23545;&#24403;&#21069;&#21015;&#25490;&#24207;
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 表格计算</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 表格计算</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
 实验toct again again 汉字gnuplot
 </p>
@@ -311,15 +276,15 @@ C-c ^         &#23545;&#24403;&#21069;&#21015;&#25490;&#24207;
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> 超链接</h2>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 超链接</h2>
 </div>
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></h2>
-<div class="outline-text-2" id="text-6">
-</div><div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <span class="done DONE">DONE</span> 基本用法</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> <span class="todo TODO">TODO</span> TODO列表<code>[1/3]</code></h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <span class="done DONE">DONE</span> 基本用法</h3>
+<div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li>State "DONE"       from "TODO"       <span class="timestamp-wrapper"><span class="timestamp">[2014-04-17 四 01:22]</span></span>
 </li>
@@ -343,9 +308,9 @@ C-c a t
 </div>
 </div>
 
-<div id="outline-container-sec-6-2" class="outline-3">
-<h3 id="sec-6-2"><span class="section-number-3">6.2</span> <span class="todo WAITING">WAITING</span> 多状态工作流</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <span class="todo WAITING">WAITING</span> 多状态工作流</h3>
+<div class="outline-text-3" id="text-5-2">
 <ul class="org-ul">
 <li>State "WAITING"    from "TODO"       <span class="timestamp-wrapper"><span class="timestamp">[2014-04-17 四 01:29]</span></span> <br  />
      meetting
@@ -400,9 +365,9 @@ TODO-&gt;STARTED-&gt;WAITING-&gt;DONE-&gt;CANCELLED-&gt;TODO
 </div>
 </div>
 
-<div id="outline-container-sec-6-3" class="outline-3">
-<h3 id="sec-6-3"><span class="section-number-3">6.3</span> 进度日志</h3>
-<div class="outline-text-3" id="text-6-3">
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 进度日志</h3>
+<div class="outline-text-3" id="text-5-3">
 <p>
 Org mode能够自动的记录状态变化的时间戳和提示信息,最基础的日志记录就是
 当任务从TODO到达结束状态时通过如下代码记录时间和提示信息：
@@ -440,9 +405,9 @@ Org mode能够自动的记录状态变化的时间戳和提示信息,最基础�
 </div>
 </div>
 
-<div id="outline-container-sec-6-4" class="outline-3">
-<h3 id="sec-6-4"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> 优先级任务</h3>
-<div class="outline-text-3" id="text-6-4">
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <span class="todo TODO">TODO</span> 优先级任务</h3>
+<div class="outline-text-3" id="text-5-4">
 <p>
 TODO列表可以为不同的任务指定优先级，只需要在状态后面加入[#A]就可以把这
 个任务指定为高优先级的了。常用的优先级有A、B、C三种，A最高，B其次（默
@@ -456,54 +421,69 @@ TODO列表可以为不同的任务指定优先级，只需要在状态后面加�
 </div>
 </div>
 
-<div id="outline-container-sec-6-5" class="outline-3">
-<h3 id="sec-6-5"><span class="section-number-3">6.5</span> 拆分任务</h3>
-<div class="outline-text-3" id="text-6-5">
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> 拆分任务</h3>
+<div class="outline-text-3" id="text-5-5">
 <p>
 当任务很大时我们可以细化拆分任务，在org mode中有两种方式拆分任务，一种
 是像写文章一样拆分成树状，另外一种就是Checkbox。下面分别介绍这两种：
 </p>
 <ol class="org-ol">
-<li>树状结构
+<li>树状结构可以在大任务后面加入<code>[/]</code>或者<code>[%]</code>这样就可以显示分数或者百分比的
+进度了，每次子任务状态的变化都会触发进度的更新。树状结构如下所示：
+
+<div class="figure">
+<p><img src="/images/org-mode-1-1.png" alt="tree-mode" title="treemode" align="center" />
+</p>
+</div>
+<p class="verse">
+<br  />
+</p>
 </li>
-</ol>
+<li>Checkbox
+在子任务前添加 <b>- [ ]</b> 标签就可以实现Checkbox了，每次Checkbox更新父
+任务的状态就会更新，操作Checkbox的快捷键如下：
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-c &#36873;&#20013;&#25110;&#21462;&#28040;Checkbox
+M-S-RET &#28155;&#21152;&#19968;&#20010;&#26032;&#30340;Checkbox&#22312;&#24403;&#21069;&#32423;&#21035;
+</pre>
+</div>
 <p>
-树状结构如下所示：
+有图有真相：
 </p>
 
-<p>
-<img src="file:///images/org-mode-basic-1-1.png" alt="tree" title="tree" align="#+BEGIN_CENTER" />
-#+END_CENTER
-<a href="/path">/path</a>
+<div class="figure">
+<p><img src="/images/org-mode-1-2.png" alt="Checkbox" class="none" title="Checkbox" align="center" />
 </p>
-<ol class="org-ol">
-<li>Checkbox
+</div>
 </li>
 </ol>
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Tags</h2>
+</div>
 <div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> Tags</h2>
+<h2 id="sec-7"><span class="section-number-2">7</span> 优先任务</h2>
 </div>
 <div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> 优先任务</h2>
+<h2 id="sec-8"><span class="section-number-2">8</span> 日期和时间</h2>
 </div>
 <div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> 日期和时间</h2>
+<h2 id="sec-9"><span class="section-number-2">9</span> Capture-Refile-Archive</h2>
 </div>
 <div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> Capture-Refile-Archive</h2>
+<h2 id="sec-10"><span class="section-number-2">10</span> Agenda Views</h2>
 </div>
 <div id="outline-container-sec-11" class="outline-2">
-<h2 id="sec-11"><span class="section-number-2">11</span> Agenda Views</h2>
+<h2 id="sec-11"><span class="section-number-2">11</span> 导出</h2>
 </div>
 <div id="outline-container-sec-12" class="outline-2">
-<h2 id="sec-12"><span class="section-number-2">12</span> 导出</h2>
+<h2 id="sec-12"><span class="section-number-2">12</span> 发布</h2>
 </div>
 <div id="outline-container-sec-13" class="outline-2">
-<h2 id="sec-13"><span class="section-number-2">13</span> 发布</h2>
-</div>
-<div id="outline-container-sec-14" class="outline-2">
-<h2 id="sec-14"><span class="section-number-2">14</span> 源代码模式</h2>
+<h2 id="sec-13"><span class="section-number-2">13</span> 源代码模式</h2>
 </div>
