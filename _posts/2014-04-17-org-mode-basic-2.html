@@ -11,7 +11,11 @@ category: 技术博客
 <ul>
 <li><a href="#sec-1">1. 文章排版</a>
 <ul>
-<li><a href="#sec-1-1">1.1. 注脚</a></li>
+<li><a href="#sec-1-1">1.1. 文档头</a></li>
+<li><a href="#sec-1-2">1.2. 基本排版</a></li>
+<li><a href="#sec-1-3">1.3. 标题查找</a></li>
+<li><a href="#sec-1-4">1.4. 列表</a></li>
+<li><a href="#sec-1-5">1.5. 注脚</a></li>
 </ul>
 </li>
 </ul>
@@ -22,8 +26,213 @@ category: 技术博客
 <h2 id="sec-1"><span class="section-number-2">1</span> 文章排版</h2>
 <div class="outline-text-2" id="text-1">
 </div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 注脚</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 文档头</h3>
 <div class="outline-text-3" id="text-1-1">
+<p>
+一篇文章必不可少需要一些描述信息，如标题、作者、联系邮箱等，在org mode
+中可以通过以下内置的标签指定元信息：
+</p>
+<pre class="example">
+#+TITLE:org-mode之文章排版
+#+AUTHOR: Afanty
+#+EMAIL: ccdevote@gmail.com
+</pre>
+<p>
+在一篇Org格式的文章开始就需要指定这些信息，这些信息会随着导出的格式解析
+成不同的元素，例如导出为HTML时那TITLE对应的就是&lt;title&gt;标签中的内容，智
+能方便。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 基本排版</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Org mode中可以方便的进行文章排版，通过*指定目录层级，如下：
+</p>
+<pre>     * 一级标题
+     ** 二级标题
+     *** 三级标题
+     内容</pre>
+<p>
+如果我们导出为HTML文件，那么对应的就是&lt;h1&gt;&lt;h2&gt;&lt;h3&gt;等标题标签了。Org
+mode可以把标题组织成树形结构的文档，隐藏内容，只保留标题树，或者只显示
+指定标题下面的子标题，有一组快捷键可以控制标题的展示方式，如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">TAB &#25511;&#21046;&#24403;&#21069;&#26631;&#39064;&#30340;&#26174;&#31034;&#26041;&#24335; FOLDED -&gt; CHILDREN -&gt; SUBTREE -&gt; FOLDED
+</pre>
+</div>
+<p>
+其中FOLDED指的是合上全部的内容，只显示一级标题。SUBTREE代表显示一级标
+题下面的标题树，可能是二级标题如果没有二级标题就显示内容元素。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">S-TAB/C-u TAB &#20840;&#23616;&#35270;&#22270;&#20999;&#25442; OVERVIEW -&gt; CONTENTS -&gt; SHOW ALL -&gt; OVERVIEW
+</pre>
+</div>
+<p>
+与TAB不同，TAB只切换光标所在标题的视图，而S-TAB则切换全局的标题。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-u C-u C-u TAB &#26174;&#31034;&#20840;&#37096;&#35270;&#22270;
+</pre>
+</div>
+<p>
+Org mode中同样内置了一些在标题之间移动光标的快捷键，简单介绍如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-n &#19979;&#19968;&#19979;&#26631;&#39064;
+C-c C-p &#19978;&#19968;&#20010;&#26631;&#39064;
+C-c C-f &#19979;&#19968;&#20010;&#21516;&#32423;&#26631;&#39064;
+C-c C-b &#19978;&#19968;&#20010;&#21516;&#32423;&#26631;&#39064;
+C-c C-u &#19978;&#19968;&#32423;&#26631;&#39064;
+</pre>
+</div>
+<p>
+此外还有一些对标题进行编辑的快捷键，简单描述如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">M-LEFT/RIGHT   &#35843;&#39640;/&#20302;&#19968;&#32423;&#20809;&#26631;&#25152;&#22312;&#26631;&#39064;&#20026;
+M-S-LEFT/RIGHT &#35843;&#39640;/&#20302;&#19968;&#32423;&#20809;&#26631;&#25152;&#22312;&#26631;&#39064;&#20026;
+M-S-UP/DOWN    &#21644;&#21516;&#32423;&#26631;&#39064;&#20132;&#25442;&#20301;&#32622;&#65288;&#21253;&#25324;&#35813;&#26631;&#39064;&#19979;&#25152;&#26377;&#20869;&#23481;&#65289;
+C-c C-w        &#21098;&#20999;&#20809;&#26631;&#25152;&#22312;&#26631;&#39064;&#21306;&#22495;&#30340;&#25152;&#26377;&#20869;&#23481;&#22312;&#26032;&#30340;&#25991;&#20214;&#20013;
+C-x n s/w      s&#21482;&#26174;&#31034;&#24403;&#21069;&#21306;&#22495;&#20869;&#23481;&#65292;w&#26174;&#31034;&#25152;&#26377;&#20869;&#23481;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 标题查找</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Org mode一个重要的功能就是只展示被选中的标题视图，其实就是查找功能，留
+下或高亮符合条件的视图，隐藏不符合给定条件的视图：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c / &#36873;&#25321;&#26597;&#25214;&#26041;&#24335;
+C-c r &#25353;&#27491;&#21017;&#34920;&#36798;&#24335;&#26597;&#25214;
+C-c t &#26597;&#25214;&#34987;&#26631;&#35760;&#20026;TODO&#30340;&#26631;&#39064;
+C-c p &#25353;property&#26597;&#25214;
+&#8230;&#8230;
+</pre>
+</div>
+<p>
+有很多可选的查找方式，只要按 <b>C-c /</b> 就可以看到查找方式的列表和快捷键。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 列表</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Org mode 支持列表操作，支持无序列表、有序列表，还可以为列表添加描述信息，
+导出为HTML后同样是HTML中的列表元素如&lt;ol&gt;&lt;ul&gt;等，创建列表的方式也非常简
+单无需列表用+ - * 这三种符号表示，有序列表用1. 2. 3.或者 1) 2) 3)这中
+符号表示，和我们平时写文章差不多。如下，创建列表：
+</p>
+<pre class="example">
+无序列表
++ item 1 :: descrotpion 1
++ item 2
+  - item 2.1
+  - item 2.2
+    * item 2.2.1
++ item 3
+有序列表一
+1. item 1
+2. item 2
+3. item 3
+有序列表二
+1) item 1
+2) item 2
+3) item 3
+CheckBox 1
+- [X] c 1
+- [ ] c 2
+</pre>
+<p>
+导出为HTML后就是这样的
+无序列表
+</p>
+<dl class="org-dl">
+<dt> item 1 </dt><dd>descrotpion 1
+</dd>
+<dt> (no term) </dt><dd>item 2
+<ul class="org-ul">
+<li>item 2.1
+</li>
+<li>item 2.2
+<ul class="org-ul">
+<li>item 2.2.1
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt> (no term) </dt><dd>item 3
+</dd>
+</dl>
+<p>
+有序列表一
+</p>
+<ol class="org-ol">
+<li>item 1
+</li>
+<li>item 2
+</li>
+<li>item 3
+</li>
+</ol>
+<p>
+有序列表二
+</p>
+<ol class="org-ol">
+<li>item 1
+</li>
+<li>item 2
+</li>
+<li>item 3
+</li>
+</ol>
+<p>
+CheckBox 1
+</p>
+<ul class="org-ul">
+<li><code>[X]</code> c 1
+</li>
+<li><code>[&#xa0;]</code> c 2
+</li>
+</ul>
+<p>
+不难发现无序列表都变成了HTML中的&lt;ul&gt; &lt;ol&gt;等标签，有序列表变成
+了1. 2. 3.这种形式，另外就是生成为HTML后描述信息木有了，那描述信息是干
+嘛用的呢？估计就是注释作用吧～还有CheckBox和HTML中的CheckBox不大一样。
+大部分操作列表的快捷键和操作标题是一样的，下面只简单介绍一些专门操作列
+表的快捷键：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elisp">C-c C-c &#29992;&#26469;&#20999;&#25442;CheckBox&#30340;&#36873;&#20013;&#21644;&#20026;&#36873;&#20013;&#29366;&#24577;
+C-c -   &#29992;&#26469;&#20999;&#25442;&#21015;&#34920;&#30340;&#26679;&#24335; - -&gt; + -&gt; 1. -&gt; 1) -&gt; -
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 注脚</h3>
+<div class="outline-text-3" id="text-1-5">
 <p>
 在写文章的过程中经常用到注脚，用来对某段话或某个词语进行解释，org-mode
 中添加注脚的方式非常简单，只需要把光标移动到需要添加注脚的单词后面，然
