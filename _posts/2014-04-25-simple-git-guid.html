@@ -1,0 +1,288 @@
+---
+layout: post
+title: Git 基本操作
+tags:
+  - [git]
+category: 技术博客
+---
+<div id="table-of-contents">
+<h2>大纲</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Git配置</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 基本配置</a></li>
+<li><a href="#sec-1-2">1.2. 命令别名</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. 常用命令</a></li>
+<li><a href="#sec-3">3. Emacs 下面使用git</a>
+<ul>
+<li><a href="#sec-3-1">3.1. 基本操作</a></li>
+<li><a href="#sec-3-2">3.2. 分支操作</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Git配置</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 基本配置</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+安装好git后需要对git进行一下可选的配置，通过个性化的设置使git更方便好用。
+git的配置文件通常会分布在三个地方:
+</p>
+<ul class="org-ul">
+<li>/etc/gitconfig
+</li>
+<li>~/.gitconfig
+</li>
+<li>git 仓库下面的config
+</li>
+</ul>
+<p>
+如果要对git进行配置，可以修改配置文件，也可以使用如下命令：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --system
+git config --global
+git config --local
+</pre>
+</div>
+<p>
+这三条指令分别对应的是系统配置，全局配置和本地配置。系统配置会影响到使
+用git的所有用户，全局配置影响的范围是单个用户下的所有项目，本地配置对
+应的就是对具体某个项目的配置。这三种配置的优先级是：
+</p>
+<p class="verse">
+local&gt;global&gt;system<br  />
+</p>
+<p>
+下面列出一些常用的配置供大家使用
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global user.name "xxx"
+git config --global user.email "xxx@xxx.com"
+</pre>
+</div>
+<p>
+这两条指令配置了全局的用户名和邮箱，也就是个人信息配置。个人信息在git
+中时非常重要的，每次commit操作都会把user.name和user.email写入提交信息
+中的，因此在全局配置中指定，以后使用会非常方便。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global user.editor eamcs
+</pre>
+</div>
+<p>
+这条指令指定了默认编辑器，当git需要用户输入一些信息时会默认打开次编辑器，
+如果没有指定，那么git会找系统默认的编辑器，通常情况下时vi/vim。我比较喜
+欢emacs，当然如何配置因人而异。除了指定喜欢的编辑器以外还可以指定diff工
+具。还有一个比较有意思的东西就是git能根据输出到终端的内容进行着色，以便
+能直观的进行观察和操作：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global color.ui true|always|false
+</pre>
+</div>
+<p>
+color.ui设置为true开启着色功能，设置为always时git输出的内容如果重定向到
+文件中依然会保留颜色。false选项会关闭着色。git可以自动为大部分的输出加
+上颜色，如果不喜欢默认的颜色也可以自己细化定制，通常可以更改：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">color.branch
+color.diff
+color.interative
+color.status
+</pre>
+</div>
+<p>
+例如要让diff以粗体，蓝色前景、黑色背景的方式显示：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global color.diff.meta "blue black bold"
+</pre>
+</div>
+<p class="verse">
+颜色选项有：normal、black、green、red、yellow、blue、magenta、cyan、<br  />
+white等。<br  />
+字体选项有：bold、dim、ul、blink、reverse<br  />
+其他的配置可以参考git config<br  />
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 命令别名</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+git可以指定命令别名，和Linux中alias命令的效果一样，我们可以个性化一些别
+名方便操作git，下面列出一些常用的别名指定方式,供大家参考：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+# 撤销 add操作
+git config --global alias.unstage 'reset HEAD --'
+# 查看最后一条日志
+git config --global alias.last 'log -l HEAD'
+# 打开git图形化界面
+git config --global alias.visual "!gitk"
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 常用命令</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>添加文件到缓冲区
+文件添加后会从未跟踪状态变为跟踪状态，当文件的状态修改后git才能作出相应的判断。
+<div class="org-src-container">
+
+<pre class="src src-python">git add <span style="color: #cc99cc;">file</span>..
+</pre>
+</div>
+</li>
+<li>提交当前版本
+把所有通过add命令加入暂存区被跟踪的文件当作一个版本提交
+<div class="org-src-container">
+
+<pre class="src src-python">git commit -m <span style="color: #66cccc;">"description"</span>
+</pre>
+</div>
+</li>
+<li>推送到远程分支
+<div class="org-src-container">
+
+<pre class="src src-python">git push origin mzy
+</pre>
+</div>
+</li>
+<li>显示精简的状态输出
+<div class="org-src-container">
+
+<pre class="src src-python">git status -s
+</pre>
+</div>
+</li>
+<li>查看cached和版本库中的文件差异
+<div class="org-src-container">
+
+<pre class="src src-python">git diff --cached
+</pre>
+</div>
+</li>
+<li>暂存区的目录树会被master分支目录树替换
+<div class="org-src-container">
+
+<pre class="src src-python">git reset HEAD
+</pre>
+</div>
+</li>
+<li>删除暂存区的文件工作区不变
+<div class="org-src-container">
+
+<pre class="src src-python">git rm --cached &lt;<span style="color: #cc99cc;">file</span>&gt;
+</pre>
+</div>
+</li>
+<li>限制引用对应的提交id结合 git cat-file -p 显示提交信息
+<div class="org-src-container">
+
+<pre class="src src-python">git rev-parse master
+</pre>
+</div>
+</li>
+<li>不要使用git commit -a命令 这样提交会使暂存区失去意义，丧失版本控制能
+力。
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Emacs 下面使用git</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+   Emacs有强大的VC可以提供对git的支持，VC是一个抽象的版本控制系统，可以提供对多版本控制系统的支持如SVN、CVS、Git等。使用Git时还应结合EGit或着Magit等插件一起使用。
+种下面简单介绍一下在Emacs下面使用Git的操作方式：
+</p>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 基本操作</h3>
+<div class="outline-text-3" id="text-3-1">
+<ol class="org-ol">
+<li>初始化Git
+<div class="org-src-container">
+
+<pre class="src src-python">M-x -&gt; magit-init          <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#36827;&#20837;&#38656;&#35201;&#36827;&#34892;&#29256;&#26412;&#25511;&#21046;&#30340;&#30446;&#24405;&#25191;&#34892;&#27492;&#21629;&#20196;&#65292;&#30456;&#24403;&#20110;git init</span>
+</pre>
+</div>
+</li>
+<li>添加文件到缓冲区
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v i                    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#30456;&#24403;&#20110;git add &lt;file&gt;</span>
+</pre>
+</div>
+</li>
+<li>提交文件
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v v                    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#30456;&#24403;&#20110;git commit</span>
+//&#28155;&#21152;&#25552;&#20132;Message
+C-c C-c                    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#23436;&#25104;&#25552;&#20132;</span>
+</pre>
+</div>
+</li>
+<li>提交到远程服务器
+<div class="org-src-container">
+
+<pre class="src src-python">M-x magit-push             <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#30456;&#24403;&#20110;git push</span>
+//&#39318;&#27425;&#20351;&#29992;&#38656;&#35201;&#37197;&#32622;remote
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 分支操作</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>拉取远端分支
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v +                    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#30456;&#24403;&#20110;git pull</span>
+</pre>
+</div>
+</li>
+<li>合并分支
+<div class="org-src-container">
+
+<pre class="src src-python">C-x v m                    <span style="color: #999999; font-style: italic;"># </span><span style="color: #999999; font-style: italic;">&#30456;&#24403;&#20110;git merge</span>
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
