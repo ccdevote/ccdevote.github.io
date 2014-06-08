@@ -27,7 +27,12 @@ category: 技术博客
 <li><a href="#sec-3">3. 系统设计与实现</a>
 <ul>
 <li><a href="#sec-3-1">3.1. 系统设计</a></li>
-<li><a href="#sec-3-2">3.2. 文件系统</a></li>
+<li><a href="#sec-3-2">3.2. 文件系统</a>
+<ul>
+<li><a href="#sec-3-2-1">3.2.1. 数据类型</a></li>
+<li><a href="#sec-3-2-2">3.2.2. </a></li>
+</ul>
+</li>
 <li><a href="#sec-3-3">3.3. 数据传输</a></li>
 <li><a href="#sec-3-4">3.4. 冗余备份</a></li>
 <li><a href="#sec-3-5">3.5. 差错校验</a></li>
@@ -151,10 +156,119 @@ email、网页和图片文档等,数据量小,要求的存储空间也小。而�
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-sec-3-1" class="outline-3">
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> 系统设计</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+存储系统整体设计
+</p>
 </div>
+</div>
+
 <div id="outline-container-sec-3-2" class="outline-3">
 <h3 id="sec-3-2"><span class="section-number-3">3.2</span> 文件系统</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> 数据类型</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+为了适应实际生产环境中的多样化需求，Gingko支持基本数据类型和复杂数据类
+型，基本数据类型包括：单字节整型、双字节整型、四字节整型、八字节整型、
+单精度浮点型、双精度浮点型、字符串、二进制串共计八种基本的数据类型。复
+杂数据类型包括：数组（array），结构（struct），映射（map）。为了方便在
+程序中实现，需要为每种数据类型设计一个唯一的编号，从而在二进制流中快速
+识别出具体的数据类型。数据类型的编号如下表所示：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">类型标准名称</th>
+<th scope="col" class="right">编号</th>
+<th scope="col" class="right">长度(byte)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">int8</td>
+<td class="right">1</td>
+<td class="right">1</td>
+</tr>
+
+<tr>
+<td class="left">int16</td>
+<td class="right">2</td>
+<td class="right">2</td>
+</tr>
+
+<tr>
+<td class="left">int32</td>
+<td class="right">3</td>
+<td class="right">4</td>
+</tr>
+
+<tr>
+<td class="left">int64</td>
+<td class="right">4</td>
+<td class="right">8</td>
+</tr>
+
+<tr>
+<td class="left">float</td>
+<td class="right">5</td>
+<td class="right">4</td>
+</tr>
+
+<tr>
+<td class="left">double</td>
+<td class="right">6</td>
+<td class="right">8</td>
+</tr>
+
+<tr>
+<td class="left">string</td>
+<td class="right">7</td>
+<td class="right">可变长度</td>
+</tr>
+
+<tr>
+<td class="left">bytes</td>
+<td class="right">8</td>
+<td class="right">可变长度</td>
+</tr>
+
+<tr>
+<td class="left">array</td>
+<td class="right">9</td>
+<td class="right">---</td>
+</tr>
+
+<tr>
+<td class="left">struct</td>
+<td class="right">10</td>
+<td class="right">---</td>
+</tr>
+
+<tr>
+<td class="left">map</td>
+<td class="right">11</td>
+<td class="right">---</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<div id="outline-container-sec-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2"><span class="section-number-4">3.2.2</span> </h4>
+</div>
+</div>
+
 <div id="outline-container-sec-3-3" class="outline-3">
 <h3 id="sec-3-3"><span class="section-number-3">3.3</span> 数据传输</h3>
 </div>
