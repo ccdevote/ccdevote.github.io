@@ -1,0 +1,68 @@
+#+TITLE:Java基础讲义
+#+AUTHOR: Zhiyong Ma
+#+EMAIL: ccdevote@gmail.com
+
+#+OPTIONS: ^:{}
+#+YAML/CATEGORY: 技术博客
+#+YAML/TAGS:[java]
+
+* Java基础
+** Number
+1. int vs long
+中华历史五千年表示成毫秒
+#+BEGIN_SRC java
+long mills = 5000 * 365 * 24 * 60 * 60 * 1000;
+long mills = 5000 * 365 * 24 * 60 * 60 * 1000L;
+long mills = 5000L * 365 * 24 * 60 * 60 * 1000;//R
+#+END_SRC
+不要用自动装箱
+#+BEGIN_SRC java
+Integer i = 1;//Bad
+Integer i = Integer.valueOf(1);//Better
+#+END_SRC
+使用valueOf可以检查参数。
+#+BEGIN_SRC python
+Integer i = 1;
+Integer j = 1;
+System.out.println(i==j);//true
+Integer m = 256;
+Integer n = 256;
+System.out.println(m==n);//false
+#+END_SRC
+在自动装箱其实是使用的Integer.valueOf()方法，这个方法内部有个优化，就是
+在-128～127之间的数字会缓存，用==符号比较时比较的是引用，i和j是指向同一
+个引用而m和n指向的是不同的引用
+2. int、double、BigDecimal
+** String
+1. ==/equals
+2. literal/intern
+3. Immutable
+4. split
+5. substring
+6. String 拼接
+   会频繁的创建临时对象，导致CPU使用率过高。
+   使用StringBuilder/StringBuffer内部是Cahr[]不会创建过多的临时对象。
+7. format
+8. join
+9. CharMatcher
+** Object
+1. equals/toString/hashCode
+   equals默认实现比较的是引用==
+   hashCode使用的是本地方法
+   toString也会调用hashCode
+** 日期
+1. Date vs Calendar
+2. SimpleDateFormat 不是线程安全的，Lock&ThreadLocal
+   如果栈封闭那么可以解决线程安全但是频繁创建对象那么会出现CPU使用率过高
+3. SortDate公司自己用的
+   + valueOf
+   + toDate
+   + 传给方法一个引用是Copy之后的引用//回去看以下，感觉不对
+
+     
+
+   
+     
+
+
+

@@ -1,8 +1,9 @@
-#+TITLE:日报
+#+TITLE:Spring基础
 #+AUTHOR:马智勇
 #+EMAIL:zhiyong.ma@qunar.com
 #+OPTIONS: ^:{}
-
+#+YAML/CATEGORY: 技术博客
+#+YAML/TAGS:[java,spring]
 * 2014-05-19 [1/2]
 ** DONE 培训Spring 刘杰老师
    CLOSED: [2014-05-19 一 21:21]

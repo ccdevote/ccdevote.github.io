@@ -1,0 +1,342 @@
+---
+layout: post
+title: MySQL基础一
+tags:
+  - [db,mysql]
+category: 技术博客
+---
+<div id="table-of-contents">
+<h2>大纲</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. SQL 语句</a>
+<ul>
+<li><a href="#sec-1-1">1.1. SELECT</a></li>
+<li><a href="#sec-1-2">1.2. JOIN</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. MySQL中值得注意的地方</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> SQL 语句</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> SELECT</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+SELECT&#x2026;FROM&#x2026; 是查询语句,基本的用法如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT COL1,COL2...,COLN FROM TB1&#65307;
+SELECT * FROM TB1 ORDER BY COL1 DESC LIMIT 5&#65307;
+</pre>
+</div>
+<p>
+第一句是从数据表TB1中查询COL1～N列数据，第二个SQL语句稍微复杂是查询所
+有记录并且按照COL1降序排列，只查询5条。有两个需要注意的地方：
+</p>
+<ol class="org-ol">
+<li><b>LIMIT 5</b> 相当于 <b>LIMIT 0,5</b> 在MySQL中记录是从0开始的；
+</li>
+<li>在生产环境中 <b>SELECT *</b> 操作一定要跟上 LIMIT，因为数据集过大如果不
+接LIMIT可能会查询很久或者出现内存溢出等错误；
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> JOIN</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+JOIN是表连接操作，用来在查询多张数据表的时候进行数据的连接，JOIN分为内
+连接和外连接
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> MySQL中值得注意的地方</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li><b>LIMET 5</b> 相当于 <b>LIMIT 0,5</b> MySQL中第一条记录从0开始;
+</li>
+<li>SELECT * 的时候尽量加上LIMIT防止数据集过大出现问题；
+</li>
+<li>在外连接中把过滤条件写在ON后面和WHERE后面的结果是不一样的,在内连接
+中是一致的；原因是ON是在返回结果集前进行过滤，WHERE是在返回结果集后
+过滤。示例如下:
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT * FROM PRODUCT A LEFT JOIN PRODUCT_DETAIL D ON A.ID=D.ID AND D.ID=2;
+</pre>
+</div>
+<p>
+那么执行结果可能如下：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">ID</th>
+<th scope="col" class="right">AMOUNT</th>
+<th scope="col" class="left">ID</th>
+<th scope="col" class="left">WIGHT</th>
+<th scope="col" class="left">EXIST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="right">200</td>
+<td class="left">NULL</td>
+<td class="left">NULL</td>
+<td class="left">NULL</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="right">100</td>
+<td class="left">2</td>
+<td class="left">22</td>
+<td class="left">33</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="right">50</td>
+<td class="left">NULL</td>
+<td class="left">NULL</td>
+<td class="left">NULL</td>
+</tr>
+</tbody>
+</table>
+<p>
+但是如果用WHERE：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql">SELECT * FROM PRODUCT A LEFT JOIN PRODUCT_DETAIL D WHERE A.ID=D.ID AND D.ID=2;
+</pre>
+</div>
+<p>
+那么结果可能会是这样的：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">ID</th>
+<th scope="col" class="right">AMOUNT</th>
+<th scope="col" class="right">ID</th>
+<th scope="col" class="right">WIGHT</th>
+<th scope="col" class="right">EXIST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">2</td>
+<td class="right">100</td>
+<td class="right">2</td>
+<td class="right">22</td>
+<td class="right">33</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>UPDATE操作如果对多个字段赋值那么应该用“,”分隔， <b>不能用and</b>
+</li>
+<li>CREATE TABLE时要指定ENGINE=InnoDB DEFAULT CHARSET=utf8
+</li>
+<li>CREATE TABLE &#x2026; SELECT 会创建一个和原表字段一致的新表，同时去掉约束
+条件，并且把原表中的数据复制到新表中。CREATE TABLE LIKE会创建一个和
+原表一致，包含约束条件的新的空表，不会复制原表的数据；
+</li>
+<li>DROP TABLE删除表操作，清除全部数据，删除定义文件，不可会滚；
+</li>
+<li>MyASM特性：
+<ul class="org-ul">
+<li>不支持事物
+</li>
+<li>表级锁
+</li>
+<li>只能缓存索引
+</li>
+<li>有查询缓存
+</li>
+<li>表文件在大批量更新操作后可能损坏
+</li>
+</ul>
+</li>
+<li>InnoDB特性：
+<ul class="org-ul">
+<li>支持事物
+</li>
+<li>行级锁
+</li>
+<li>buffer pool中会缓存索引
+</li>
+<li>大量更新不会损坏表文件
+</li>
+</ul>
+</li>
+<li>索引的作用：
+<ul class="org-ul">
+<li>保持数据完整性
+</li>
+<li>优化数据访问
+</li>
+<li>表连接
+</li>
+<li>结果排序order by
+</li>
+<li>聚合操作group by/distinct
+</li>
+</ul>
+</li>
+<li>聚集索引（主键）
+<ul class="org-ul">
+<li>根节点
+</li>
+<li>分支节点
+</li>
+<li>叶子节点（主键列值，事务ID，回滚指针，非主键列值）
+</li>
+</ul>
+</li>
+<li>非聚集索引（非主键，辅助索引）
+<ul class="org-ul">
+<li>根节点
+</li>
+<li>分支节点
+</li>
+<li>叶子节点（索引列值，对应聚集索引主键列值）
+</li>
+</ul>
+</li>
+<li>单列索引
+<ul class="org-ul">
+<li>单个字段组成
+</li>
+<li>Where条件中的字段查询时可以应用到索引
+</li>
+<li>alter table product add index idx_orderno(orderno);
+</li>
+</ul>
+</li>
+<li>联合索引
+<ul class="org-ul">
+<li>多个字段组成
+</li>
+<li>联合索引字段有序，左前缀字段有序
+</li>
+<li>可代替左前缀字段的单列索引
+</li>
+<li>左前缀为定值，第二个字段可优化排序
+</li>
+</ul>
+</li>
+<li>覆盖索引
+如果一个索引包含所有要查询的字段的值，就称为“覆盖索引
+</li>
+<li>什么情况下用不到索引
+<ul class="org-ul">
+<li>where条件中没有内容
+</li>
+<li>&lt;&gt;，not in，not exists
+</li>
+<li>join中连接字段类型不一致
+</li>
+<li>扫描内容超过全表的20%
+</li>
+<li>where条件的字段有函数运算
+</li>
+<li>出现隐式字符类型转换
+</li>
+<li>like '%name'
+</li>
+</ul>
+</li>
+<li>后台传入的数据类型应该于表结构定义的类型一致，否则可能会引发严重问
+题
+</li>
+<li>查看执行计划explain
+<ul class="org-ul">
+<li>SELECT_TYPE
+<p class="verse">
+• SIMPLE：简单查询<br  />
+• PRIMARY：最外层的select<br  />
+• SUBQUERY：子查询内层查询的第一个select，结<br  />
+&#xa0;&#xa0;果不依赖于外部查询结果集<br  />
+• DEPENDENT SUBQUERY：子查询内层的第一个<br  />
+&#xa0;&#xa0;select,依赖于外部查询的结果集<br  />
+• DERIVED：子查询派生表的select<br  />
+</p>
+</li>
+<li>TABLE 表名
+</li>
+<li>Type
+<p class="verse">
+• index: 全索引扫描<br  />
+• const: 通过主键访问<br  />
+• all: 全表扫描<br  />
+• range: 索引范围扫描<br  />
+• ref: 索引扫描，结果可能有多个匹配值<br  />
+• eq_ref: 索引扫描，唯一索引匹配值（唯一）<br  />
+• 访问效率：const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL<br  />
+</p>
+</li>
+<li>possible_keys：可能用到的索引
+</li>
+<li>key ：使用的索引
+</li>
+<li>key_len：索引长度
+</li>
+<li>rows：估算的扫描行数，非精确值
+</li>
+<li>Extra
+<p class="verse">
+• Impossible WHERE noticed after reading const<br  />
+&#xa0;&#xa0;tables：Mysql 优化器通过分析发现不可能存在结果<br  />
+• Using index：所需要的数据只需要在Index 即可全<br  />
+&#xa0;&#xa0;部获得而不需要再到表中取数据<br  />
+• Using index for group-by：数据访问和Using index<br  />
+&#xa0;&#xa0;一样，所需数据只需要读取索引即可，而当Query<br  />
+&#xa0;&#xa0;中使用了GROUP BY 或者DISTINCT 子句的时候，<br  />
+&#xa0;&#xa0;如果分组字段也在索引中，Extra 中就会出现该信息<br  />
+</p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>

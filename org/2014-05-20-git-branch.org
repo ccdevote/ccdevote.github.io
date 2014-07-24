@@ -1,0 +1,37 @@
+#+TITLE:Git分支操作
+#+AUTHOR: Afanty
+#+EMAIL: ccdevote@gmail.com
+
+#+OPTIONS: ^:{}
+#+YAML/CATEGORY: 技术博客
+#+YAML/TAGS:[git]
+
+* branch定义
+branch其实是指向一个提交对象的可变指针，每次提交后指针都会自动向前移动。
+git中有一个HEAD指针指向当前分支，git中默认会有一个master分支，HEAD也默
+认指向master分支。
+* 相关命令
+1. git branch
+2. git branch -r
+3. git branch /newbranch/
+4. git checkout /somebranch/
+5. git branch -b /newbranch/
+6. git merge /somebranch/
+7. git branch -d /somebranch/
+
+   git branch -D /somebranch/
+8. git branch --merged
+9. git branch --no-merged
+10. git branch -b /localbranch/ origin/somebranch
+
+    git branch --track origin/somebranch
+11. git push origin mybranch
+12. git push origin :somebranch
+13. git rebase
+
+* 常见工作流
+1. bugfix
+2. feature
+3. feature&bugfixr
+
+

@@ -1,0 +1,135 @@
+#+TITLE:MySQL基础一
+#+AUTHOR: Zhiyong Ma
+#+EMAIL: ccdevote@gmail.com
+
+#+OPTIONS: ^:{}
+#+YAML/CATEGORY: 技术博客
+#+YAML/TAGS:[db,mysql]
+
+* SQL 语句
+** SELECT
+SELECT...FROM... 是查询语句,基本的用法如下：
+#+BEGIN_SRC sql
+SELECT COL1,COL2...,COLN FROM TB1；
+SELECT * FROM TB1 ORDER BY COL1 DESC LIMIT 5；
+#+END_SRC
+第一句是从数据表TB1中查询COL1～N列数据，第二个SQL语句稍微复杂是查询所
+有记录并且按照COL1降序排列，只查询5条。有两个需要注意的地方：
+1. *LIMIT 5* 相当于 *LIMIT 0,5* 在MySQL中记录是从0开始的；
+2. 在生产环境中 *SELECT ** 操作一定要跟上 LIMIT，因为数据集过大如果不
+   接LIMIT可能会查询很久或者出现内存溢出等错误；
+** JOIN
+JOIN是表连接操作，用来在查询多张数据表的时候进行数据的连接，JOIN分为内
+连接和外连接
+* MySQL中值得注意的地方
+1. *LIMET 5* 相当于 *LIMIT 0,5* MySQL中第一条记录从0开始;
+2. SELECT * 的时候尽量加上LIMIT防止数据集过大出现问题；
+3. 在外连接中把过滤条件写在ON后面和WHERE后面的结果是不一样的,在内连接
+   中是一致的；原因是ON是在返回结果集前进行过滤，WHERE是在返回结果集后
+   过滤。示例如下:
+   #+BEGIN_SRC sql
+     SELECT * FROM PRODUCT A LEFT JOIN PRODUCT_DETAIL D ON A.ID=D.ID AND D.ID=2;
+   #+END_SRC
+   那么执行结果可能如下：
+   | ID | AMOUNT | ID   | WIGHT | EXIST |
+   |----+--------+------+-------+-------|
+   |  1 |    200 | NULL | NULL  | NULL  |
+   |  2 |    100 | 2    | 22    | 33    |
+   |  3 |     50 | NULL | NULL  | NULL  |
+   但是如果用WHERE：
+   #+BEGIN_SRC sql
+     SELECT * FROM PRODUCT A LEFT JOIN PRODUCT_DETAIL D WHERE A.ID=D.ID AND D.ID=2;
+   #+END_SRC
+   那么结果可能会是这样的：
+   | ID | AMOUNT | ID   | WIGHT | EXIST |
+   |----+--------+------+-------+-------|
+   |  2 |    100 | 2    | 22    | 33    |
+4. UPDATE操作如果对多个字段赋值那么应该用“,”分隔， *不能用and*
+5. CREATE TABLE时要指定ENGINE=InnoDB DEFAULT CHARSET=utf8
+6. CREATE TABLE ... SELECT 会创建一个和原表字段一致的新表，同时去掉约束
+   条件，并且把原表中的数据复制到新表中。CREATE TABLE LIKE会创建一个和
+   原表一致，包含约束条件的新的空表，不会复制原表的数据；
+7. DROP TABLE删除表操作，清除全部数据，删除定义文件，不可会滚；
+8. MyASM特性：
+   - 不支持事物
+   - 表级锁
+   - 只能缓存索引
+   - 有查询缓存
+   - 表文件在大批量更新操作后可能损坏
+9. InnoDB特性：
+   - 支持事物
+   - 行级锁
+   - buffer pool中会缓存索引
+   - 大量更新不会损坏表文件
+10. 索引的作用：
+   - 保持数据完整性
+   - 优化数据访问
+   - 表连接
+   - 结果排序order by
+   - 聚合操作group by/distinct
+11. 聚集索引（主键）
+   - 根节点
+   - 分支节点
+   - 叶子节点（主键列值，事务ID，回滚指针，非主键列值）
+12. 非聚集索引（非主键，辅助索引）
+   - 根节点
+   - 分支节点
+   - 叶子节点（索引列值，对应聚集索引主键列值）
+13. 单列索引
+   - 单个字段组成
+   - Where条件中的字段查询时可以应用到索引
+   - alter table product add index idx_orderno(orderno);
+14. 联合索引
+   - 多个字段组成
+   - 联合索引字段有序，左前缀字段有序
+   - 可代替左前缀字段的单列索引
+   - 左前缀为定值，第二个字段可优化排序
+15. 覆盖索引
+   如果一个索引包含所有要查询的字段的值，就称为“覆盖索引
+16. 什么情况下用不到索引
+   - where条件中没有内容
+   - <>，not in，not exists
+   - join中连接字段类型不一致
+   - 扫描内容超过全表的20%
+   - where条件的字段有函数运算
+   - 出现隐式字符类型转换
+   - like '%name'
+17. 后台传入的数据类型应该于表结构定义的类型一致，否则可能会引发严重问
+    题
+18. 查看执行计划explain
+   - SELECT_TYPE
+     #+BEGIN_VERSE
+     • SIMPLE：简单查询
+     • PRIMARY：最外层的select
+     • SUBQUERY：子查询内层查询的第一个select，结
+       果不依赖于外部查询结果集
+     • DEPENDENT SUBQUERY：子查询内层的第一个
+       select,依赖于外部查询的结果集
+     • DERIVED：子查询派生表的select
+     #+END_VERSE
+   - TABLE 表名
+   - Type
+     #+BEGIN_VERSE
+     • index: 全索引扫描
+     • const: 通过主键访问
+     • all: 全表扫描
+     • range: 索引范围扫描
+     • ref: 索引扫描，结果可能有多个匹配值
+     • eq_ref: 索引扫描，唯一索引匹配值（唯一）
+     • 访问效率：const > eq_ref > ref > range > index > ALL
+     #+END_VERSE
+   - possible_keys：可能用到的索引
+   - key ：使用的索引
+   - key_len：索引长度
+   - rows：估算的扫描行数，非精确值
+   - Extra
+     #+BEGIN_VERSE
+     • Impossible WHERE noticed after reading const
+       tables：Mysql 优化器通过分析发现不可能存在结果
+     • Using index：所需要的数据只需要在Index 即可全
+       部获得而不需要再到表中取数据
+     • Using index for group-by：数据访问和Using index
+       一样，所需数据只需要读取索引即可，而当Query
+       中使用了GROUP BY 或者DISTINCT 子句的时候，
+       如果分组字段也在索引中，Extra 中就会出现该信息
+     #+END_VERSE
